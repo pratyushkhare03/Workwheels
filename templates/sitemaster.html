@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,19 +11,27 @@
       font-family: 'Poppins', sans-serif;
       background-color: #f8f9fa;
     }
+    html {
+      scroll-behavior:smooth;
+    }
+
     /* Navbar */
     .navbar {
-      background-color: #000;
+      background-color: #1d1d1d;
+      position: sticky;
+      top : 0;
+      z-index: 2;
     }
     .navbar-brand {
       font-weight: bold;
       color: #FFD60A !important;
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
     .nav-link {
       color: #fff !important;
       margin-right: 1rem;
       transition: color 0.3s ease;
+      font-size: 1.2rem;
     }
     .nav-link:hover {
       color: #FFD60A !important;
@@ -30,8 +39,9 @@
 
     /* Hero Section */
     .hero {
-      background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
-                  url('https://images.unsplash.com/photo-1606925797301-9f7f933b268a') center/cover no-repeat;
+      background: black center/cover no-repeat;
+      /* background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                  url('https://images.unsplash.com/photo-1606925797301-9f7f933b268a') center/cover no-repeat; */
       height: 90vh;
       display: flex;
       align-items: center;
@@ -39,6 +49,18 @@
       text-align: center;
       color: #fff;
       padding: 2rem;
+    }
+    .hero .txt{
+      position: relative;
+      left: 0;
+      padding-left: 100px;
+      z-index: 1;
+    }
+    .hero .taxi{
+      position: relative;
+      right: 0;
+      padding-right: 50px;
+      z-index: 1;
     }
     .hero h1 {
       font-size: 3rem;
@@ -106,22 +128,22 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">TaxiManage</a>
+      <a class="navbar-brand" href="#">WorkWheels</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
           <li class="nav-item"><a class="nav-link" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
+          <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">Login/Register</a>
-            <ul class="dropdown-menu">
+            <a class="nav-link" href="/register" id="loginDropdown" role="button">Login/Register</a>
+            <!-- <ul class="dropdown-menu">
               <li><a class="dropdown-item" href="/hr">HR</a></li>
               <li><a class="dropdown-item" href="/employee">Employee</a></li>
               <li><a class="dropdown-item" href="/driver">Driver</a></li>
-            </ul>
+            </ul> -->
           </li>
         </ul>
       </div>
@@ -130,16 +152,19 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div>
+    <div class="txt">
        {% block content %}{% endblock %}
       <h1>Ride With Comfort & Safety</h1>
       <p>Book your taxi anytime, anywhere with our reliable service.</p>
       <a href="#" class="btn btn-taxi">Book Now</a>
     </div>
+    <div class="taxi">
+      <img src="{% static 'images/img2.png' %}" alt="Logo">
+    </div>
   </section>
 
   <!-- Services Section -->
-  <section class="services">
+  <section class="services" id="services">
     <div class="container">
       <h2>Our Services</h2>
       <div class="row text-center">
