@@ -290,6 +290,14 @@
           .toggle-panel h1 {
             font-size: 30px;
           }
+          #role{
+            color: #e2e2e2;
+          }
+          #role > option{
+                  height: 5vh;
+                  width: 10vw;
+          }
+          
         }
     </style>
 
@@ -298,14 +306,15 @@
   <body>
     <div class="container">
       <div class="form-box login">
-        <form action="#">
+        <form action="" method="post">
+           {% csrf_token %}
           <h1>Login</h1>
           <div class="input-box">
-            <input type="text" placeholder="Username" required />
+            <input type="text" placeholder="username" name="username" required />
             <i class="bx bxs-user"></i>
           </div>
           <div class="input-box">
-            <input type="password" placeholder="Password" required />
+            <input type="password" placeholder="Password" name="password" required />
             <i class="bx bxs-lock-alt"></i>
           </div>
           <div class="forgot-link">
@@ -323,26 +332,33 @@
       </div>
 
       <div class="form-box register">
-        <form action="#">
+        <form action="" method="post">
+          {% csrf_token %}
           <!-- <h1>Registration</h1> -->
           <div class="input-box">
             <input type="text" placeholder="Full Name" required />
             <i class="bx bxs-id-card"></i>
           </div>
           <div class="input-box">
-            <input type="text" placeholder="Username" required />
+            <input type="text" placeholder="Username" name="Usernm" required />
             <i class="bx bxs-user"></i>
           </div>
           <div class="input-box">
-            <input type="email" placeholder="Email" required />
+            <input type="email" placeholder="Email" name="email" required />
             <i class="bx bxs-envelope"></i>
           </div>
           <div class="input-box">
-            <input type="password" id="Password" placeholder="Password" required />
+            <input type="password" id="Password" placeholder="Password" name="password" required />
             <i class="bx bxs-lock-alt"></i>
           </div>
           <div class="input-box">
-            <input type="password" id="Confirm Password" placeholder="Confirm Password" required />
+            <!-- <input type="password" id="Confirm Password" placeholder="Confirm Password" required /> -->
+              <label  id="role" class="form-label">Role</label>
+            <select class="form-select" name="role" required>
+                <option value="employee">Employee</option>            
+                <option value="driver">Driver</option>
+                <option value="hr">HR</option>
+            </select>
             <i class="bx bxs-lock-alt"></i>
           </div>
 
