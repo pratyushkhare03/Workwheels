@@ -118,9 +118,9 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="loginDropdown" role="button" data-bs-toggle="dropdown">Login/Register</a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">HR</a></li>
-              <li><a class="dropdown-item" href="#">Employee</a></li>
-              <li><a class="dropdown-item" href="#">Driver</a></li>
+              <li><a class="dropdown-item" href="/hr">HR</a></li>
+              <li><a class="dropdown-item" href="/employee">Employee</a></li>
+              <li><a class="dropdown-item" href="/driver">Driver</a></li>
             </ul>
           </li>
         </ul>
@@ -131,6 +131,7 @@
   <!-- Hero Section -->
   <section class="hero">
     <div>
+       {% block content %}{% endblock %}
       <h1>Ride With Comfort & Safety</h1>
       <p>Book your taxi anytime, anywhere with our reliable service.</p>
       <a href="#" class="btn btn-taxi">Book Now</a>
@@ -152,6 +153,7 @@
         <div class="col-md-4 mb-4">
           <div class="card service-card p-4">
             <div class="service-icon mb-3"><i class="bi bi-clock-history"></i></div>
+           
             <h5>Hourly Rentals</h5>
             <p>Rent cabs by the hour for your convenience and flexibility.</p>
           </div>
