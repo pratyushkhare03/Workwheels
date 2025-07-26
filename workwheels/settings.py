@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'driver',
     'employee',
     'hr',
+    'authentication',
 ]
 
 MIDDLEWARE = [
