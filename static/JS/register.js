@@ -4,10 +4,10 @@ const container = document.querySelector('.container');
 
         registerBtn.addEventListener('click', () => {
             container.classList.add('active');
-            history.pushState(null, '', '/register'); // change URL without reload
+            history.pushState(null, '', '/register/'); // change URL without reload
         });
       
         loginBtn.addEventListener('click', () => {
             container.classList.remove('active');
-            history.pushState(null, '', '/login');
+            history.pushState(null, '', '/login/');
         });
