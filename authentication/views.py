@@ -41,6 +41,7 @@ def  login(req):
     if req.method == "POST":
      usernm = req.POST['username']
      pasw = req.POST['password']
+     role = req.POST['role']
      user = User.objects.filter(username=usernm)
      if not user.exists():
         messages.error(req,"wrong username give a currect username")
@@ -51,5 +52,16 @@ def  login(req):
         return redirect('/')
      else:
         auth_login(req,user)
-        return redirect('/')
+
+   #   if hasattr(USER, 'driver'):
+   #              role = 'driver'
+   #   elif hasattr(USER, 'employee'):
+   #              role = 'employee'
+      #   role = USER.objects.filter(role)
+     if role == "employee":
+      # #   if User.objects.filter(username=username).exists():
+                 return redirect('/employee')
+      # #   elif role == "driver":
+     else:
+                 return redirect('/driver')
     return render(req,'register.html')
