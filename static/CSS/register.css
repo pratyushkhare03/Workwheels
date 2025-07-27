@@ -1,24 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login/Signup Form</title>
-    {% comment %} <link rel="stylesheet" href="style.css" /> {% endcomment %}
-    <link
-      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
-      rel="stylesheet"
-    />
-
-
-    <style>
-        @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 
         :root{
-          --container-bg : #FB4141;
-          --form-box-bg : #FB4141;
-          --btn-bg : #FF9D23;
-          --toggle-box-bg : #FF9D23;
+          --container-bg : #f87b14;
+          --form-box-bg : #f87b14;
+          --btn-bg : #FFD60A;
+          --toggle-box-bg : #3d3c3c;
         }
         
         * {
@@ -99,7 +85,7 @@
           margin: 30px 0;
         }
         
-        .input-box input {
+        .input-box input,select {
           width: 100%;
           padding: 13px 50px 13px 20px;
           background: #eee;
@@ -110,8 +96,27 @@
           color: #333;
           font-weight: 500;
         }
-        
-        .input-box input::placeholder {
+
+        .input-box select{
+          appearance: none;         /* Standard */
+          -webkit-appearance: none; /* Safari/Chrome */
+          -moz-appearance: none;    /* Firefox */
+          background-image: none;
+          background: #eee;
+          padding: 13px 50px 13px 20px; /* space for chevron icon */
+          border-radius: 8px;
+          border: none;
+          font-size: 16px;
+          font-weight: 500;
+          color: #333;
+          cursor: pointer;
+        }
+
+        .select-no-arrow option[disabled] {
+          color: #888;
+        }
+
+        .input-box input,select::placeholder {
           color: #888;
           font-weight: 400;
         }
@@ -175,7 +180,7 @@
           height: 100%;
           /* background: #7494ec; */
           background: var(--toggle-box-bg);
-          /* background-image: url(img2.jpg); */
+          /* background-image: url(employee/img.jpg); */
           /* background-size: cover; */
           /* border: 2px solid red; */
           border-radius: 150px;
@@ -206,17 +211,19 @@
           transition-delay: 1.2s;
         }
         .container.active .toggle-panel.toggle-left {
-          left: -50%;
+          left: -100%;
           transition-delay: 0.6s;
+          
         }
         
         .toggle-panel.toggle-right {
-          right: -50%;
+          right: -100%;
           transition-delay: 0.6s;
         }
         .container.active .toggle-panel.toggle-right {
           right: 0;
           transition-delay: 1.2s;
+          
         }
         
         .toggle-panel p {
@@ -239,7 +246,7 @@
           .form-box {
             bottom: 0;
             width: 100%;
-            height: 70%;
+            height: 100%;
           }
       
           .container.active .form-box {
@@ -290,95 +297,12 @@
           .toggle-panel h1 {
             font-size: 30px;
           }
+          #role{
+            color: #e2e2e2;
+          }
+          #role > option{
+                  height: 5vh;
+                  width: 10vw;
+          }
+          
         }
-    </style>
-
-
-  </head>
-  <body>
-    <div class="container">
-      <div class="form-box login">
-        <form action="#">
-          <h1>Login</h1>
-          <div class="input-box">
-            <input type="text" placeholder="Username" required />
-            <i class="bx bxs-user"></i>
-          </div>
-          <div class="input-box">
-            <input type="password" placeholder="Password" required />
-            <i class="bx bxs-lock-alt"></i>
-          </div>
-          <div class="forgot-link">
-            <a href="#">Forgot Password?</a>
-          </div>
-          <button type="submit" class="btn">Login</button>
-          <p>or login with social platforms</p>
-          <div class="social-icons">
-            <a href="#"><i class="bx bxl-google"></i></a>
-            <a href="#"><i class="bx bxl-facebook"></i></a>
-            <a href="#"><i class="bx bxl-github"></i></a>
-            <a href="#"><i class="bx bxl-linkedin"></i></a>
-          </div>
-        </form>
-      </div>
-
-      <div class="form-box register">
-        <form action="#">
-          <h1>Registration</h1>
-          <div class="input-box">
-            <input type="text" placeholder="Username" required />
-            <i class="bx bxs-user"></i>
-          </div>
-          <div class="input-box">
-            <input type="email" placeholder="Email" required />
-            <i class="bx bxs-envelope"></i>
-          </div>
-          <div class="input-box">
-            <input type="password" placeholder="Password" required />
-            <i class="bx bxs-lock-alt"></i>
-          </div>
-          <button type="submit" class="btn">Register</button>
-          <p>or register with social platforms</p>
-          <div class="social-icons">
-            <a href="#"><i class="bx bxl-google"></i></a>
-            <a href="#"><i class="bx bxl-facebook"></i></a>
-            <a href="#"><i class="bx bxl-github"></i></a>
-            <a href="#"><i class="bx bxl-linkedin"></i></a>
-          </div>
-        </form>
-      </div>
-
-      <div class="toggle-box">
-        <div class="toggle-panel toggle-left">
-          <h1>Hello, Welcome!</h1>
-          <p>Don't have an account?</p>
-          <button class="btn register-btn">Register</button>
-        </div>
-
-        <div class="toggle-panel toggle-right">
-          <h1>Welcome Back!</h1>
-          <p>Already have an account?</p>
-          <button class="btn login-btn">Login</button>
-        </div>
-      </div>
-    </div>
-
-
-
-    <script>
-        const container = document.querySelector('.container');
-        const registerBtn = document.querySelector('.register-btn');
-        const loginBtn = document.querySelector('.login-btn');
-
-        registerBtn.addEventListener('click', () => {
-            container.classList.add('active');
-        })
-
-        loginBtn.addEventListener('click', () => {
-            container.classList.remove('active');
-        })
-    </script>
-
-
-  </body>
-</html>

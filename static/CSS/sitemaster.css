@@ -1,0 +1,290 @@
+/* Main sitemaster CSS */
+
+body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    html {
+      scroll-behavior:smooth;
+    }
+
+    /* Navbar */
+    .navbar {
+      background-color: #161616;
+      position: sticky;
+      top : 0;
+      z-index: 2;
+    }
+    .navbar-brand {
+      font-weight: bold;
+      color: #FFD60A !important;
+      font-size: 1.5rem;
+      font-family: Comic Sans MS;
+    }
+    .nav-link {
+      color: #fff !important;
+      margin-right: 1rem;
+      transition: color 0.3s ease;
+      font-size: 1.2rem;
+    }
+    .nav-link:hover {
+      color: #FFD60A !important;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: #181717;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 2rem;
+    }
+    .hero .txt{
+      position: relative;
+      left: 0;
+      padding-left: 100px;
+      z-index: 1;
+    }
+    .hero .taxi{
+      position: relative;
+      right: 0;
+      padding-right: 50px;
+      z-index: 1;
+    }
+    .hero .taxi img{
+      height: 600px;
+      width: 600px;
+    }
+    .hero h1 {
+      font-size: 3rem;
+      font-weight: bold;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      margin-top: 1rem;
+    }
+    .btn-taxi {
+      background-color: #FFD60A;
+      color: #000;
+      font-weight: bold;
+      margin-top: 1.5rem;
+      padding: 0.7rem 1.5rem;
+      border-radius: 30px;
+      transition: transform 0.3s;
+    }
+    .btn-taxi:hover {
+      transform: scale(1.05);
+    }
+
+    /* Services Section */
+    .services {
+      padding: 10rem 0;
+      background-color: #fff;
+    }
+    .services h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      font-weight: bold;
+      color: #000;
+    }
+    .service-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border: none;
+      border-radius: 10px;
+    }
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0px 10px 20px rgba(0,0,0,0.2);
+    }
+    .service-icon {
+      font-size: 3rem;
+      color: #FFD60A;
+    }
+
+footer {
+  background-color: #000;
+  color: #fff;
+  min-height: 90vh; /* Full screen height */
+  display: flex;
+  align-items: center;
+  /* padding: 0rem 0; */
+}
+footer a {
+  color: #FFD60A;
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
+}
+.social-links i {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+}
+.social-links i:hover {
+  transform: scale(1.2);
+}
+input, textarea {
+  border-radius: 5px;
+}
+button.btn-warning {
+  font-weight: bold;
+}
+
+
+
+/* Employee content.html CSS */                                                             /* Employee CSS */
+
+    :root {
+      --dark-bg: #121212;       /* Main dark background */
+      --text-light: #ffffff;    /* Light text */
+      --accent-yellow: #FFD60A; /* Buttons, highlights */
+      --taxi-yellow: #f8d400;   /* Taxi/car tone */
+      --accent-orange: #f87b14; /* Secondary accent (icons) */
+      --accent-purple: #a259ff; /* Decorative accent */
+      --light-gray: #e2e2e2;    /* Input backgrounds */
+    }
+
+  
+
+    /* Full width colored wrapper */
+    .form-wrapper {
+      background: var(--dark-bg);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 50px 15px;
+    }
+
+    /* Centered card with white background */
+    .form-card {
+      background: #1e1e1e; /* Slightly lighter than bg for contrast */
+      border-radius: 16px;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      color: var(--text-light);
+    }
+
+    .form-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--accent-yellow);
+    }
+
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--text-light);
+    }
+
+    .form-control {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      background: var(--light-gray);
+      font-size: 16px;
+      color: #000;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 5px var(--accent-yellow);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent-yellow);
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6c307;
+    }
+
+
+
+    /* Driver content.html CSS */                                                               /* Driver CSS */
+
+    :root {
+      --dark-bg: #121212;       /* Background */
+      --text-light: #ffffff;    /* Text color */
+      --accent-yellow: #FFD60A; /* Buttons and highlights */
+      --light-gray: #e2e2e2;    /* Input background */
+    }
+
+    
+
+    /* Full width dark wrapper */
+    .form-wrapper {
+      background: var(--dark-bg);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 50px 15px;
+    }
+
+    /* Card for form */
+    .form-card {
+      background: #1e1e1e;
+      border-radius: 16px;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      color: var(--text-light);
+    }
+
+    .form-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--accent-yellow);
+    }
+
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--text-light);
+    }
+
+    .form-control {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      background: var(--light-gray);
+      font-size: 16px;
+      color: #000;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 5px var(--accent-yellow);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent-yellow);
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6c307;
+    }
