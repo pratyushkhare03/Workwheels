@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Create your models here.
-class driver(models.Model):
+class Driver(models.Model):
     username=models.OneToOneField(User, on_delete=models.CASCADE)
     carModel=models.CharField(max_length=50)
     carNumberPlate=models.CharField(max_length=50)
