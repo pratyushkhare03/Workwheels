@@ -9,7 +9,9 @@ def index(request):
     return render(request, 'sitemaster.html')
 
 def register(request):
-     if request.method == "POST":
+      path = request.path
+      initial_form = 'login' if 'login' in path else 'register'
+      if request.method == "POST":
         username = request.POST['Usernm']
         email = request.POST['email']
         password = request.POST['password']
@@ -33,11 +35,14 @@ def register(request):
         messages.success(request, "Account created successfully. Please log in.")
         return redirect('/')  # Change to your login page
 
-     return render(request,'register.html')
+     #return render(request,'register.html')
+      return render(request, 'register.html', {'initial_form': initial_form})
 
 # Login function
 
 def  login(req):
+    path = req.path
+    initial_form = 'login' if 'login' in path else 'register'
     if req.method == "POST":
      usernm = req.POST['username']
      pasw = req.POST['password']
@@ -64,4 +69,5 @@ def  login(req):
       # #   elif role == "driver":
      else:
                  return redirect('/driver')
-    return render(req,'register.html')
+    #return render(req,'register.html')
+    return render(req, 'register.html', {'initial_form': initial_form})

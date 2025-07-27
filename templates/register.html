@@ -325,7 +325,7 @@
 
   </head>
   <body>
-    <div class="container">
+    <div class="container {% if initial_form == 'register' %}active{% endif %}">
       <div class="form-box login">
         <form action="" method="post">
            {% csrf_token %}
@@ -426,17 +426,17 @@
 
 
     <script>
-        const container = document.querySelector('.container');
-        const registerBtn = document.querySelector('.register-btn');
-        const loginBtn = document.querySelector('.login-btn');
-
-        registerBtn.addEventListener('click', () => {
-            container.classList.add('active');
-        })
-
-        loginBtn.addEventListener('click', () => {
-            container.classList.remove('active');
-        })
+        //const container = document.querySelector('.container');
+        //const registerBtn = document.querySelector('.register-btn');
+        //const loginBtn = document.querySelector('.login-btn');
+//
+        //registerBtn.addEventListener('click', () => {
+        //    container.classList.add('active');
+        //})
+//
+        //loginBtn.addEventListener('click', () => {
+        //    container.classList.remove('active');
+        //})
 
         // Validate Passwords
         //function validatePasswords() {
@@ -452,6 +452,20 @@
         //    return true; // Allow form submission
         //  }
         //}
+
+        const container = document.querySelector('.container');
+        const registerBtn = document.querySelector('.register-btn');
+        const loginBtn = document.querySelector('.login-btn');
+
+        registerBtn.addEventListener('click', () => {
+            container.classList.add('active');
+            history.pushState(null, '', '/register'); // change URL without reload
+        });
+      
+        loginBtn.addEventListener('click', () => {
+            container.classList.remove('active');
+            history.pushState(null, '', '/login');
+        });
     </script>
 
 
