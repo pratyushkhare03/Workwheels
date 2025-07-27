@@ -14,13 +14,13 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark">
     <div class="container">
-      <a class="navbar-brand" href="#">WorkWheels</a>
+      <a class="navbar-brand" href="/">WorkWheels</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          {% block tag %}<li class="nav-item"><a class="nav-link" href="#">Home</a></li>{% endblock %}
+          {% block tag %}<li class="nav-item"><a class="nav-link" href="/#">Home</a></li>{% endblock %}
           <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
           <li class="nav-item">
@@ -36,10 +36,66 @@
     <div class="txt">
       <h1>Ride With Comfort & Safety</h1>
       <p>Book your taxi anytime, anywhere with our reliable service.</p>
-      <a href="#" class="btn btn-taxi">Book Now</a>
+      
+      <!-- Real-time Booking Form -->
+      <div class="booking-form">
+        <div class="form-row">
+          <div class="form-group">
+            <i class="bi bi-geo-alt-fill"></i>
+            <input type="text" placeholder="Pickup Location" class="form-control">
+          </div>
+          <div class="form-group">
+            <i class="bi bi-geo-alt"></i>
+            <input type="text" placeholder="Destination" class="form-control">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <i class="bi bi-calendar"></i>
+            <input type="datetime-local" class="form-control">
+          </div>
+          <div class="form-group">
+            <i class="bi bi-people"></i>
+            <select class="form-control">
+              <option>1 Passenger</option>
+              <option>2 Passengers</option>
+              <option>3 Passengers</option>
+              <option>4+ Passengers</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-taxi">Book Now - ₹150</button>
+      </div>
+
+      <!-- Live Features -->
+      <div class="live-features">
+        <div class="feature-item">
+          <i class="bi bi-clock"></i>
+          <span>ETA: 5 mins</span>
+        </div>
+        <div class="feature-item">
+          <i class="bi bi-shield-check"></i>
+          <span>Verified Drivers</span>
+        </div>
+        <div class="feature-item">
+          <i class="bi bi-credit-card"></i>
+          <span>Cashless Payment</span>
+        </div>
+      </div>
     </div>
     <div class="taxi">
       <img src="{% static 'images/img.png' %}" alt="image">
+      <!-- Live Map Overlay -->
+      <!-- <div class="map-overlay">
+        <div class="driver-info">
+          <img src="{% static 'images/logo.png' %}" alt="Driver" class="driver-avatar">
+          <div class="driver-details">
+            <h6>Rajesh Kumar</h6>
+            <p>4.8 ★ (2,450 rides)</p>
+            <span class="car-info">Swift Dzire • KA-01-AB-1234</span>
+          </div>
+        </div>
+      </div> -->
     </div>
   </section>
 {% endblock %}
@@ -53,14 +109,31 @@
             <div class="service-icon mb-3"><i class="bi bi-car-front"></i></div>
             <h5>City Rides</h5>
             <p>Quick and affordable rides within the city limits.</p>
+            <div class="pricing-info">
+              <span class="price">₹12/km</span>
+              <span class="base-fare">Base: ₹50</span>
+            </div>
+            <div class="vehicle-types">
+              <span class="badge bg-warning">Mini</span>
+              <span class="badge bg-warning">Prime</span>
+              <span class="badge bg-warning">Auto</span>
+            </div>
           </div>
         </div>
         <div class="col-md-4 mb-4">
           <div class="card service-card p-4">
             <div class="service-icon mb-3"><i class="bi bi-clock-history"></i></div>
-           
             <h5>Hourly Rentals</h5>
             <p>Rent cabs by the hour for your convenience and flexibility.</p>
+            <div class="pricing-info">
+              <span class="price">₹200/hour</span>
+              <span class="base-fare">Min: 2 hours</span>
+            </div>
+            <div class="vehicle-types">
+              <span class="badge bg-warning">Sedan</span>
+              <span class="badge bg-warning">SUV</span>
+              <span class="badge bg-warning">Luxury</span>
+            </div>
           </div>
         </div>
         <div class="col-md-4 mb-4">
@@ -68,6 +141,141 @@
             <div class="service-icon mb-3"><i class="bi bi-geo-alt"></i></div>
             <h5>Outstation Trips</h5>
             <p>Comfortable outstation rides with professional drivers.</p>
+            <div class="pricing-info">
+              <span class="price">₹15/km</span>
+              <span class="base-fare">Toll included</span>
+            </div>
+            <div class="vehicle-types">
+              <span class="badge bg-warning">Innova</span>
+              <span class="badge bg-warning">Tempo</span>
+              <span class="badge bg-warning">Bus</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional Services -->
+      <div class="row mt-5">
+        <div class="col-12">
+          <h3 class="text-center mb-4">Special Services</h3>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="special-service">
+            <i class="bi bi-airplane"></i>
+            <h6>Airport Transfer</h6>
+            <p>Fixed rates to/from airport</p>
+            <span class="rate">₹800-1200</span>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="special-service">
+            <i class="bi bi-building"></i>
+            <h6>Corporate Travel</h6>
+            <p>Business travel solutions</p>
+            <span class="rate">₹18/km</span>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="special-service">
+            <i class="bi bi-heart"></i>
+            <h6>Medical Emergency</h6>
+            <p>Priority booking available</p>
+            <span class="rate">₹20/km</span>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="special-service">
+            <i class="bi bi-calendar-event"></i>
+            <h6>Wedding & Events</h6>
+            <p>Fleet booking services</p>
+            <span class="rate">Contact us</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Statistics Section -->
+  <section class="statistics">
+    <div class="container">
+      <div class="row text-center">
+        <div class="col-md-3 mb-4">
+          <div class="stat-item">
+            <i class="bi bi-people-fill"></i>
+            <h3>50,000+</h3>
+            <p>Happy Customers</p>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-item">
+            <i class="bi bi-car-front-fill"></i>
+            <h3>500+</h3>
+            <p>Verified Drivers</p>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-item">
+            <i class="bi bi-geo-alt-fill"></i>
+            <h3>25+</h3>
+            <p>Cities Covered</p>
+          </div>
+        </div>
+        <div class="col-md-3 mb-4">
+          <div class="stat-item">
+            <i class="bi bi-star-fill"></i>
+            <h3>4.8</h3>
+            <p>Average Rating</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials">
+    <div class="container">
+      <h2 class="text-center mb-5">What Our Customers Say</h2>
+      <div class="row">
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img src="{% static 'images/logo.png' %}" alt="Customer" class="customer-avatar">
+              <div class="customer-info">
+                <h6>Priya Sharma</h6>
+                <div class="stars">★★★★★</div>
+                <span class="location">Bangalore</span>
+              </div>
+            </div>
+            <p>"Amazing service! The driver was professional and the ride was very comfortable. Highly recommended!"</p>
+            <span class="ride-info">Airport Transfer • 2 days ago</span>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img src="{% static 'images/logo.png' %}" alt="Customer" class="customer-avatar">
+              <div class="customer-info">
+                <h6>Rahul Verma</h6>
+                <div class="stars">★★★★★</div>
+                <span class="location">Mumbai</span>
+              </div>
+            </div>
+            <p>"Used WorkWheels for my daily commute. Clean cars, punctual drivers, and great pricing!"</p>
+            <span class="ride-info">City Ride • 1 week ago</span>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4">
+          <div class="testimonial-card">
+            <div class="testimonial-header">
+              <img src="{% static 'images/logo.png' %}" alt="Customer" class="customer-avatar">
+              <div class="customer-info">
+                <h6>Anjali Patel</h6>
+                <div class="stars">★★★★★</div>
+                <span class="location">Delhi</span>
+              </div>
+            </div>
+            <p>"Perfect for outstation trips. The driver was well-trained and the journey was smooth and safe."</p>
+            <span class="ride-info">Outstation Trip • 3 days ago</span>
           </div>
         </div>
       </div>
@@ -135,6 +343,7 @@
   <!-- Bootstrap Icons & JS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{% static 'JS/main.js' %}"></script>
 
 </body>
 </html>

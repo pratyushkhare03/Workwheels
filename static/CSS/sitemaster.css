@@ -39,7 +39,7 @@ body {
       justify-content: center;
       text-align: center;
       color: #fff;
-      padding: 2rem;
+      padding: 0rem;
     }
     .hero .txt{
       position: relative;
@@ -65,6 +65,51 @@ body {
       font-size: 1.2rem;
       margin-top: 1rem;
     }
+
+    /* Booking Form Styles */
+    .booking-form {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 25px;
+      margin: 30px 0;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-row {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .form-group {
+      flex: 1;
+      position: relative;
+    }
+
+    .form-group i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #FFD60A;
+      z-index: 2;
+    }
+
+    .form-group .form-control {
+      padding-left: 40px;
+      background: rgba(255, 255, 255, 0.9);
+      border: none;
+      border-radius: 8px;
+      height: 45px;
+      color: #333;
+    }
+
+    .form-group .form-control:focus {
+      box-shadow: 0 0 0 3px rgba(255, 214, 10, 0.3);
+      outline: none;
+    }
+
     .btn-taxi {
       background-color: #FFD60A;
       color: #000;
@@ -73,14 +118,89 @@ body {
       padding: 0.7rem 1.5rem;
       border-radius: 30px;
       transition: transform 0.3s;
+      width: 100%;
+      font-size: 1.1rem;
     }
     .btn-taxi:hover {
       transform: scale(1.05);
+      background-color: #e6c307;
     }
+
+    /* Live Features */
+    .live-features {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 214, 10, 0.1);
+      padding: 8px 15px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 214, 10, 0.3);
+    }
+
+    .feature-item i {
+      color: #FFD60A;
+      font-size: 1.1rem;
+    }
+
+    .feature-item span {
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    /* Map Overlay */
+    /* .map-overlay {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 15px;
+      color: white;
+      max-width: 250px;
+    }
+
+    .driver-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .driver-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid #FFD60A;
+    }
+
+    .driver-details h6 {
+      margin: 0;
+      color: #FFD60A;
+      font-size: 0.9rem;
+    }
+
+    .driver-details p {
+      margin: 2px 0;
+      font-size: 0.8rem;
+      color: #ccc;
+    }
+
+    .car-info {
+      font-size: 0.7rem;
+      color: #999;
+    } */
 
     /* Services Section */
     .services {
-      padding: 10rem 0;
+      padding: 5rem 0;
       background-color: #fff;
     }
     .services h2 {
@@ -93,6 +213,7 @@ body {
       transition: transform 0.3s ease, box-shadow 0.3s ease;
       border: none;
       border-radius: 10px;
+      height: 100%;
     }
     .service-card:hover {
       transform: translateY(-10px);
@@ -103,13 +224,174 @@ body {
       color: #FFD60A;
     }
 
+    /* Pricing Information */
+    .pricing-info {
+      margin: 15px 0;
+      text-align: center;
+    }
+
+    .price {
+      display: block;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #FFD60A;
+      margin-bottom: 5px;
+    }
+
+    .base-fare {
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .vehicle-types {
+      margin-top: 10px;
+    }
+
+    .vehicle-types .badge {
+      margin: 2px;
+      font-size: 0.7rem;
+    }
+
+    /* Special Services */
+    .special-service {
+      text-align: center;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .special-service:hover {
+      transform: translateY(-5px);
+    }
+
+    .special-service i {
+      font-size: 2rem;
+      color: #FFD60A;
+      margin-bottom: 10px;
+    }
+
+    .special-service h6 {
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .special-service p {
+      font-size: 0.9rem;
+      color: #666;
+      margin-bottom: 10px;
+    }
+
+    .rate {
+      font-weight: bold;
+      color: #FFD60A;
+    }
+
+    /* Statistics Section */
+    .statistics {
+      background: linear-gradient(135deg, #FFD60A 0%, #FFA500 100%);
+      padding: 80px 0;
+      color: #000;
+    }
+
+    .stat-item {
+      padding: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .stat-item:hover {
+      transform: scale(1.05);
+    }
+
+    .stat-item i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      color: #000;
+    }
+
+    .stat-item h3 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+
+    .stat-item p {
+      font-size: 1.1rem;
+      font-weight: 500;
+    }
+
+    /* Testimonials Section */
+    .testimonials {
+      background: #f8f9fa;
+      padding: 80px 0;
+    }
+
+    .testimonial-card {
+      background: white;
+      border-radius: 15px;
+      padding: 25px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      height: 100%;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .testimonial-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .customer-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      border: 2px solid #FFD60A;
+    }
+
+    .customer-info h6 {
+      margin: 0;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .stars {
+      color: #FFD60A;
+      font-size: 0.9rem;
+      margin: 2px 0;
+    }
+
+    .location {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .testimonial-card p {
+      font-style: italic;
+      color: #555;
+      margin-bottom: 15px;
+      line-height: 1.6;
+    }
+
+    .ride-info {
+      font-size: 0.8rem;
+      color: #999;
+      font-weight: 500;
+    }
+
 footer {
   background-color: #000;
   color: #fff;
   min-height: 90vh; /* Full screen height */
   display: flex;
   align-items: center;
-  /* padding: 0rem 0; */
+  /* padding: 0.5rem 0; */
+  padding-top: 2rem;
 }
 footer a {
   color: #FFD60A;
@@ -130,6 +412,48 @@ input, textarea {
 }
 button.btn-warning {
   font-weight: bold;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .hero .txt {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  
+  .hero .taxi {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+  
+  .hero .taxi img {
+    height: 300px;
+    width: 300px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .live-features {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .map-overlay {
+    position: relative;
+    margin-top: 20px;
+    max-width: 100%;
+  }
+  
+  .statistics .col-md-3 {
+    margin-bottom: 30px;
+  }
 }
 
 
