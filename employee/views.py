@@ -22,3 +22,7 @@ def employee(request):
                 # driver.save() 
              redirect('home/')
       return render(request, 'employee/content.html')
+
+
+def home(request):
+       return render(request,'employee/home.html')

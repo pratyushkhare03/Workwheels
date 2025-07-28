@@ -1,6 +1,34 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}<li class="nav-item"><a class="nav-link" href="#">Driver</a></li>{% endblock %}
+{% block registerbtn %}{% endblock %}
+{% block nav-icon %}
+
+  <!-- <li class="nav-item">
+    <p class="nav-link">Welcome, Driver</p>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#contact" ><i class='bx bx-user-circle' ></i></a>
+  </li> -->
+    <!-- Center content using mx-auto -->
+<ul class="navbar-nav mx-auto text-center">
+  <li class="nav-item">
+    <p class="nav-link mb-0">Welcome, Driver</p>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#contact">
+      <i class='bx bx-user-circle bx-md'></i>
+    </a>
+  </li>
+</ul>
+
+  {% comment %} <button type="submit" class="btn btn-logout animate__animated animate__fadeInRight">
+      <i class='bx bx-log-out'></i> Logout
+    </button> {% endcomment %}
+
+{% endblock %}
+
+
 {% block content %}
 <link href="{% static 'CSS/driver-styles.css' %}" rel="stylesheet">
 
@@ -10,17 +38,9 @@
       <a class="navbar-brand animate__animated animate__fadeInLeft" href="#">
         <i class='bx bx-car'></i> WorkWheels
       </a>
-      <div class="ms-auto d-flex align-items-center">
-        <span class="text-white me-3 animate__animated animate__fadeInRight">
-          <i class='bx bx-user-circle'></i> Welcome, Driver
-        </span>
-        <button class="btn btn-logout animate__animated animate__fadeInRight">
-          <i class='bx bx-log-out'></i> Logout
-        </button>
-      </div>
+      
     </div>
   </nav> {% endcomment %}
-
   <!-- Driver Stats Section -->
   <div class="container mt-4">
     <div class="row stats-container">
@@ -216,4 +236,4 @@
 
 
   <script src="{% static 'JS/driver-script.js' %}"></script>
-    {% endblock %}
+{% endblock %}

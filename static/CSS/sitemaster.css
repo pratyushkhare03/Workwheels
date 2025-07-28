@@ -9,7 +9,7 @@ body {
     }
 
     /* Navbar */
-    .navbar {
+    /* .navbar {
       background-color: #161616;
       position: sticky;
       top : 0;
@@ -29,7 +29,59 @@ body {
     }
     .nav-link:hover {
       color: #FFD60A !important;
-    }
+    } */
+
+    /* Enhanced Navbar */
+.navbar {
+  background: rgba(26, 26, 26, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-brand {
+  color: var(--primary-yellow);
+  font-weight: 700;
+  font-size: 1.8rem;
+  text-decoration: none;
+  transition: var(--transition);
+}
+
+.navbar-brand:hover {
+  color: var(--primary-orange);
+  transform: scale(1.05);
+}
+
+.nav-link {
+  color: #fff !important;
+  margin-right: 15px;
+  font-weight: 500;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav-link:hover {
+  color: var(--primary-yellow) !important;
+  transform: translateY(-2px);
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--primary-yellow);
+  transition: var(--transition);
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
 
     /* Hero Section */
     .hero {
@@ -118,85 +170,13 @@ body {
       padding: 0.7rem 1.5rem;
       border-radius: 30px;
       transition: transform 0.3s;
-      width: 100%;
+      width: 1px;
       font-size: 1.1rem;
     }
     .btn-taxi:hover {
       transform: scale(1.05);
       background-color: #e6c307;
     }
-
-    /* Live Features */
-    .live-features {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    .feature-item {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255, 214, 10, 0.1);
-      padding: 8px 15px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 214, 10, 0.3);
-    }
-
-    .feature-item i {
-      color: #FFD60A;
-      font-size: 1.1rem;
-    }
-
-    .feature-item span {
-      font-size: 0.9rem;
-      font-weight: 500;
-    }
-
-    /* Map Overlay */
-    /* .map-overlay {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-      background: rgba(0, 0, 0, 0.8);
-      backdrop-filter: blur(10px);
-      border-radius: 10px;
-      padding: 15px;
-      color: white;
-      max-width: 250px;
-    }
-
-    .driver-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .driver-avatar {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      border: 2px solid #FFD60A;
-    }
-
-    .driver-details h6 {
-      margin: 0;
-      color: #FFD60A;
-      font-size: 0.9rem;
-    }
-
-    .driver-details p {
-      margin: 2px 0;
-      font-size: 0.8rem;
-      color: #ccc;
-    }
-
-    .car-info {
-      font-size: 0.7rem;
-      color: #999;
-    } */
 
     /* Services Section */
     .services {

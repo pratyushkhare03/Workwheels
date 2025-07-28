@@ -20,12 +20,14 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+          {% block nav-icon %}
           {% block tag %}<li class="nav-item"><a class="nav-link" href="/#">Home</a></li>{% endblock %}
           <li class="nav-item"><a class="nav-link" href="#services">Services</a></li>
           <li class="nav-item"><a class="nav-link" href="#contact">Contact Us</a></li>
           <li class="nav-item">
-            <a class="nav-link" href="/register" id="loginDropdown" role="button">Register/Login</a></li>
+            {% block registerbtn %}<a class="nav-link" href="/register" role="button">Register/Login</a>{% endblock %}
           </li>
+          {% endblock %}
         </ul>
       </div>
     </div>
@@ -37,66 +39,10 @@
     <div class="txt">
       <h1>Ride With Comfort & Safety</h1>
       <p>Book your taxi anytime, anywhere with our reliable service.</p>
-      
-      <!-- Real-time Booking Form -->
-      <div class="booking-form">
-        <div class="form-row">
-          <div class="form-group">
-            <i class="bi bi-geo-alt-fill"></i>
-            <input type="text" placeholder="Pickup Location" class="form-control">
-          </div>
-          <div class="form-group">
-            <i class="bi bi-geo-alt"></i>
-            <input type="text" placeholder="Destination" class="form-control">
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <i class="bi bi-calendar"></i>
-            <input type="datetime-local" class="form-control">
-          </div>
-          <div class="form-group">
-            <i class="bi bi-people"></i>
-            <select class="form-control">
-              <option>1 Passenger</option>
-              <option>2 Passengers</option>
-              <option>3 Passengers</option>
-              <option>4+ Passengers</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn btn-taxi">Book Now - ₹150</button>
-      </div>
-
-      <!-- Live Features -->
-      <div class="live-features">
-        <div class="feature-item">
-          <i class="bi bi-clock"></i>
-          <span>ETA: 5 mins</span>
-        </div>
-        <div class="feature-item">
-          <i class="bi bi-shield-check"></i>
-          <span>Verified Drivers</span>
-        </div>
-        <div class="feature-item">
-          <i class="bi bi-credit-card"></i>
-          <span>Cashless Payment</span>
-        </div>
-      </div>
+      <button class="btn btn-taxi">Book Now</button>
     </div>
     <div class="taxi">
       <img src="{% static 'images/img.png' %}" alt="image">
-      <!-- Live Map Overlay -->
-      <!-- <div class="map-overlay">
-        <div class="driver-info">
-          <img src="{% static 'images/logo.png' %}" alt="Driver" class="driver-avatar">
-          <div class="driver-details">
-            <h6>Rajesh Kumar</h6>
-            <p>4.8 ★ (2,450 rides)</p>
-            <span class="car-info">Swift Dzire • KA-01-AB-1234</span>
-          </div>
-        </div>
-      </div> -->
     </div>
   </section>
 {% endblock %}

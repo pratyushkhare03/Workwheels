@@ -1,0 +1,188 @@
+{% extends 'sitemaster.html' %}
+{% load static %} 
+{% block tag %}<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
+{% block registerbtn %}{% endblock %}
+{% block content %}
+
+<link href="{% static 'CSS/employee-styles.css' %}" rel="stylesheet">
+
+<!-- Stats Section -->
+  <div class="container mt-4">
+    <div class="row stats-container">
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="stat-card animate__animated animate__fadeInUp">
+          <div class="stat-number">12</div>
+          <div class="stat-label">Total Rides</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+          <div class="stat-number">8</div>
+          <div class="stat-label">Completed</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+          <div class="stat-number">3</div>
+          <div class="stat-label">Pending</div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 mb-3">
+        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
+          <div class="stat-number">1</div>
+          <div class="stat-label">Rejected</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Request Form -->
+  <div class="container mt-4">
+    <h3 class="section-title animate__animated animate__fadeInDown">Request a Ride</h3>
+    <div class="row justify-content-center">
+      <div class="col-lg-8 col-md-10">
+        <form class="request-form animate__animated animate__fadeInUp" id="rideForm">
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="pickup" class="form-label">
+                <i class='bx bx-map-pin'></i> Pickup Location
+              </label>
+              <input type="text" class="form-control" id="pickup" placeholder="Search pickup location" required>
+              <input type="hidden" id="pickup-lat" name="pickup_lat">
+              <input type="hidden" id="pickup-lng" name="pickup_lng">
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="drop" class="form-label">
+                <i class='bx bx-target-lock'></i> Drop Location
+              </label>
+              <input type="text" class="form-control" id="drop" placeholder="Search drop location" required>
+              <input type="hidden" id="drop-lat" name="drop_lat">
+              <input type="hidden" id="drop-lng" name="drop_lng">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 mb-3">
+              <label for="time" class="form-label">
+                <i class='bx bx-time'></i> Pickup Time
+              </label>
+              <input type="time" class="form-control" id="time" required>
+            </div>
+            <div class="col-md-6 mb-3">
+              <label for="date" class="form-label">
+                <i class='bx bx-calendar'></i> Pickup Date
+              </label>
+              <input type="date" class="form-control" id="date" required>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="notes" class="form-label">
+              <i class='bx bx-note'></i> Additional Notes (Optional)
+            </label>
+            <textarea class="form-control" id="notes" rows="3" placeholder="Any special requirements or notes..."></textarea>
+          </div>
+          <button type="submit" class="btn btn-request w-100">
+            <i class='bx bx-send'></i> Submit Request
+          </button>
+        </form>
+        
+        <!-- Success Message -->
+        <div class="success-message" id="successMessage">
+          <i class='bx bx-check-circle'></i> Ride request submitted successfully!
+        </div>
+        
+        <!-- Loading -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p class="mt-2">Processing your request...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Enhanced Request History -->
+  <div class="container mt-5">
+    <h3 class="section-title animate__animated animate__fadeInDown">Your Ride Requests</h3>
+    <div class="row g-4">
+      
+      <!-- Request Card Example -->
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card animate__animated animate__fadeInUp">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Request #201
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> IT Park, Sector 62</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Airport Terminal 1</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> 10:30 AM</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 15 Dec 2024</p>
+            <p>Status: <span class="status-pending">Pending</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-outline-primary me-2">
+                <i class='bx bx-edit'></i> Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class='bx bx-trash'></i> Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Request #202
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Downtown Office</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Railway Station</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> 11:00 AM</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 14 Dec 2024</p>
+            <p>Status: <span class="status-accepted">Accepted</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-success me-2">
+                <i class='bx bx-check'></i> Track
+              </button>
+              <button class="btn btn-sm btn-outline-info">
+                <i class='bx bx-phone'></i> Contact
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Request #203
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Cyber Hub</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Bus Stand</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> 9:15 AM</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 13 Dec 2024</p>
+            <p>Status: <span class="status-rejected">Rejected</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-outline-secondary me-2">
+                <i class='bx bx-refresh'></i> Reapply
+              </button>
+              <button class="btn btn-sm btn-outline-warning">
+                <i class='bx bx-message'></i> Feedback
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Floating Action Button -->
+  <div class="fab animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+    <i class='bx bx-plus'></i>
+  </div>
+
+  <!-- Google Maps Places API -->
+  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+  <script src="{% static 'JS/employee-script.js' %}"></script>
+  {% endblock %}
