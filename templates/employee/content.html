@@ -8,6 +8,7 @@
     <div class="form-card">
       <h2>Shift Details</h2>
       <form action="" method="post">
+        {% csrf_token %}
         <label for="department" class="form-label">Department</label>
         <input type="text" class="form-control" name="department" placeholder="Enter your department" required>
 
