@@ -20,7 +20,7 @@ def driver(request):
             #  user = User.objects.filter(is_staff=True)
             # usernm = User.username
                 # driver.save() 
-            redirect('home/')
+            redirect('/home/')
 
 
 
@@ -31,4 +31,4 @@ def driver(request):
 def driverhome(request):
 
 
-   return render(request, 'driver/content2.html')
+   return render(request, 'driver/home.html')
