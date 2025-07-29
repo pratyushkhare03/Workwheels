@@ -3,6 +3,89 @@
 {% block tag %}<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
 {% block content %}
 
+<style>
+  
+/* Employee content.html CSS */                                                             /* Employee CSS */
+
+    :root {
+      --dark-bg: #121212;       /* Main dark background */
+      --text-light: #ffffff;    /* Light text */
+      --accent-yellow: #FFD60A; /* Buttons, highlights */
+      --taxi-yellow: #f8d400;   /* Taxi/car tone */
+      --accent-orange: #f87b14; /* Secondary accent (icons) */
+      --accent-purple: #a259ff; /* Decorative accent */
+      --light-gray: #e2e2e2;    /* Input backgrounds */
+    }
+
+  
+
+    /* Full width colored wrapper */
+    .form-wrapper {
+      background: var(--dark-bg);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      padding: 50px 15px;
+    }
+
+    /* Centered card with white background */
+    .form-card {
+      background: #1e1e1e; /* Slightly lighter than bg for contrast */
+      border-radius: 16px;
+      padding: 30px 20px;
+      width: 100%;
+      max-width: 450px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      color: var(--text-light);
+    }
+
+    .form-card h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: 600;
+      color: var(--accent-yellow);
+    }
+
+    .form-label {
+      font-weight: 500;
+      margin-bottom: 5px;
+      color: var(--text-light);
+    }
+
+    .form-control {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 15px;
+      margin-bottom: 15px;
+      background: var(--light-gray);
+      font-size: 16px;
+      color: #000;
+    }
+
+    .form-control:focus {
+      outline: none;
+      box-shadow: 0 0 5px var(--accent-yellow);
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent-yellow);
+      font-size: 16px;
+      font-weight: 600;
+      color: #000;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background: #e6c307;
+    }
+
+
+</style>
+
   <div class="form-wrapper">
     <!-- Centered card -->
     <div class="form-card">
