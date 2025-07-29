@@ -108,6 +108,9 @@ html {
   padding-left: 100px;
   z-index: 1;
 }
+.hero .txt h1{
+  color: var(--primary-yellow);
+}
 .hero .taxi {
   position: relative;
   right: 0;
