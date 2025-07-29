@@ -105,16 +105,21 @@
     <div class="row g-4">
       
       <!-- Request Card Example -->
+       {% for driver in drivers %}
       <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp">
           <div class="card-header">
             <i class='bx bx-car'></i> Request #201
           </div>
           <div class="card-body">
-            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> IT Park, Sector 62</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Airport Terminal 1</p>
-            <p><strong><i class='bx bx-time'></i> Time:</strong> 10:30 AM</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 15 Dec 2024</p>
+            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{"TODO"}}</p>
+            <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{pick_uptime}}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{car_model}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Capacity</strong>{{car_capacity}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Number Plate</strong>{{car_numberplate}}</p>
+            <p><strong><i class='bx bx-calendar'></i>per KM trip cost</strong>{{trip_cost}}</p>
             <p>Status: <span class="status-pending">Pending</span></p>
             <div class="mt-3">
               <button class="btn btn-sm btn-outline-primary me-2">
@@ -127,6 +132,35 @@
           </div>
         </div>
       </div>
+       {% endfor %}
+       {% for rep_driver in repeated_drivers %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card animate__animated animate__fadeInUp">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Request #201
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{"TODO"}}</p>
+            <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{rep_pick_uptime}}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{rep_car_model}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Capacity</strong>{{rep_car_capacity}}</p>
+            <p><strong><i class='bx bx-calendar'></i>Car Number Plate</strong>{{rep_car_numberplate}}</p>
+            <p><strong><i class='bx bx-calendar'></i>per KM trip cost</strong>{{rep_trip_cost}}</p>
+            <p>Status: <span class="status-pending">Pending</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-outline-primary me-2">
+                <i class='bx bx-edit'></i> Edit
+              </button>
+              <button class="btn btn-sm btn-outline-danger">
+                <i class='bx bx-trash'></i> Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+       {% endfor %}
 
       <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">

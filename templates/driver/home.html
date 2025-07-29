@@ -84,6 +84,7 @@
     <div class="row g-4">
       
       <!-- Ride Card Example -->
+       {% for employee in employees %}
       <div class="col-lg-4 col-md-6">
         <div class="card ride-card animate__animated animate__fadeInUp">
           <div class="card-header">
@@ -93,17 +94,17 @@
             <div class="employee-info mb-3">
               <img src="https://via.placeholder.com/40x40/FFD60A/000?text=JD" class="employee-avatar" alt="Employee">
               <div class="employee-details">
-                <h6 class="employee-name">John Doe</h6>
+                <h6 class="employee-name">{{employeename}}</h6>
                 <span class="employee-rating">
                   <i class='bx bxs-star'></i> 4.9
                 </span>
               </div>
             </div>
-            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> IT Park, Sector 62</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Airport Terminal 1</p>
-            <p><strong><i class='bx bx-time'></i> Time:</strong> 10:30 AM</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 15 Dec 2024</p>
-            <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹450</p>
+            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{pickup_location}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{drop_location}}</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong>{{pickup_time}}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
+            <p><strong><i class='bx bx-money'></i> Fare:</strong> {{trip_cost}}</p>
             <div class="d-flex justify-content-between mt-3">
               <button class="btn btn-accept" data-request-id="101">
                 <i class='bx bx-check'></i> Accept
@@ -115,6 +116,40 @@
           </div>
         </div>
       </div>
+      {% endfor %}
+       {% for rep_employee in rep_employees %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-card animate__animated animate__fadeInUp">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Request #101
+          </div>
+          <div class="card-body">
+            <div class="employee-info mb-3">
+              <img src="https://via.placeholder.com/40x40/FFD60A/000?text=JD" class="employee-avatar" alt="Employee">
+              <div class="employee-details">
+                <h6 class="employee-name">{{rep_employeename}}</h6>
+                <span class="employee-rating">
+                  <i class='bx bxs-star'></i> 4.9
+                </span>
+              </div>
+            </div>
+            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{rep_drop_location}}</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong>{{rep_pickup_time}}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
+            <p><strong><i class='bx bx-money'></i> Fare:</strong> {{rep_trip_cost}}</p>
+            <div class="d-flex justify-content-between mt-3">
+              <button class="btn btn-accept" data-request-id="101">
+                <i class='bx bx-check'></i> Accept
+              </button>
+              <button class="btn btn-reject" data-request-id="101">
+                <i class='bx bx-x'></i> Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
 
       <div class="col-lg-4 col-md-6">
         <div class="card ride-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
