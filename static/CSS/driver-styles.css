@@ -334,6 +334,7 @@ body::before {
   backdrop-filter: blur(10px);
   overflow: hidden;
   position: relative;
+  padding-bottom: 20px;
 }
 
 .current-ride-card::before {
@@ -344,6 +345,7 @@ body::before {
   right: 0;
   height: 4px;
   background: linear-gradient(90deg, #28a745, #20c997);
+  padding-bottom: 20px;
 }
 
 .current-ride-card .card-header {

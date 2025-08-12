@@ -1,5 +1,5 @@
 {% extends 'sitemaster.html' %}
-{% block tag %}<li class="nav-item"><a class="nav-link" href="#">Driver</a></li>{% endblock %}
+{% block tag %}<li class="nav-item"><a class="nav-link" href="/driver/home">Driver Dashboard</a></li>{% endblock %}
 {% block registerbtn %}{% endblock %}
 {% block content %}
 
@@ -95,14 +95,14 @@
         <label for="carCapacity" class="form-label">Car Capacity</label>
         <input type="number" class="form-control" name="carCapacity" placeholder="Enter car's capacity" required>
 
-        <label for="pick_up_time" class="form-label">Pick Up Time</label>
+        <label for="pick_up_time" class="form-label">Taxi ready to go</label>
         <input type="time" class="form-control" name="pick_up_time" required>
 
-        <label for="drop_time" class="form-label">Drop Time</label>
+        <label for="drop_time" class="form-label">Taxi closed Time</label>
         <input type="time" class="form-control" name="drop_time" required>
 
-        <label for="tripcost" class="form-label">Money You Charge</label>
-        <input type="number" class="form-control" name="tripcost" placeholder="Enter how much you will charge" required>
+        <label for="tripcost" class="form-label">Money You Charge per KM</label>
+        <input type="number" class="form-control" name="tripcost" placeholder="Enter how much you will charge per KM" required>
 
         <button type="submit">
           <!-- <a href="/driver/home" style="text-decoration: none; color: black; width: 100%; height: 100%;">Submit</a> -->

@@ -9,6 +9,7 @@ class Employee(models.Model):
     shift_start = models.TimeField()
     shift_end = models.TimeField()
     pickup_location = models.CharField(max_length=255)
+    drop_location=models.CharField(max_length=255, default="Unknown")
    
     
     def str(self):
@@ -21,6 +22,8 @@ class EmployeeData(models.Model):
     shift_start = models.TimeField()
     shift_end = models.TimeField()
     pickup_location = models.CharField(max_length=255)
+    drop_location=models.CharField(max_length=255, default="Unknown")
+   
    
     
     def str(self):

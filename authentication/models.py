@@ -13,7 +13,7 @@ class USER(models.Model):
     def _str_(self):
         return self.username+" "+self.role+" "
 
-
+ 
 
 
 # from django.db import models

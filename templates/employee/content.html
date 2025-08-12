@@ -1,6 +1,6 @@
 {% extends 'sitemaster.html' %}
 {% if user.is_authenticated %}
-{% block tag %}<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
+{% block tag %}<li class="nav-item"><a class="nav-link" href="/employee/home">Employee Dashboard</a></li>{% endblock %}
 {% block content %}
 
 <style>
@@ -103,6 +103,9 @@
 
         <label for="pickup_location" class="form-label">Pick up Location</label>
         <input type="text" class="form-control" name="pickup_location" placeholder="Enter your pickup location" required>
+
+        <label for="drop_location" class="form-label">Drop Location</label>
+        <input type="text" class="form-control" name="pickup_location" placeholder="Enter your drop location" required>
 
         <button type="submit">Submit</button>
       </form>

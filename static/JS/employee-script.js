@@ -1,4 +1,5 @@
 // Google Maps Places API initialization
+
 function initAutocomplete() {
   const pickupInput = document.getElementById('pickup');
   const dropInput = document.getElementById('drop');
@@ -104,18 +105,18 @@ function initIntersectionObserver() {
 }
 
 // Initialize floating action button
-function initFloatingActionButton() {
-  const fab = document.querySelector('.fab');
-  if (fab) {
-    fab.addEventListener('click', function() {
-      // Scroll to form
-      const form = document.querySelector('.request-form');
-      if (form) {
-        form.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
-  }
-}
+// function initFloatingActionButton() {
+//   const fab = document.querySelector('.fab');
+//   if (fab) {
+//     fab.addEventListener('click', function() {
+//       // Scroll to form
+//       const form = document.querySelector('/employee');
+//       if (form) {
+//         form.scrollIntoView({ behavior: 'smooth' });
+//       }
+//     });
+//   }
+// }
 
 // Initialize logout functionality
 function initLogout() {

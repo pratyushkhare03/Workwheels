@@ -15,11 +15,18 @@
   <li class="nav-item">
     <p class="nav-link mb-0">Welcome, Driver</p>
   </li>
+   <li class="nav-item">
+    <a class="nav-link" href="/logout">
+      logout
+      <!-- <button style="background-color: black; color: azure;">Logout</button> -->
+    </a>
+  </li>
   <li class="nav-item">
     <a class="nav-link" href="#contact">
       <i class='bx bx-user-circle bx-md'></i>
     </a>
   </li>
+ 
 </ul>
 
   {% comment %} <button type="submit" class="btn btn-logout animate__animated animate__fadeInRight">
@@ -90,6 +97,8 @@
           <div class="card-header">
             <i class='bx bx-car'></i> Request #101
           </div>
+        <form action="{% url 'accept_req' driver.id %}" method="post">
+            {% csrf_token %}
           <div class="card-body">
             <div class="employee-info mb-3">
               <img src="https://via.placeholder.com/40x40/FFD60A/000?text=JD" class="employee-avatar" alt="Employee">
@@ -106,7 +115,7 @@
             <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
             <p><strong><i class='bx bx-money'></i> Fare:</strong> {{trip_cost}}</p>
             <div class="d-flex justify-content-between mt-3">
-              <button class="btn btn-accept" data-request-id="101">
+              <button class="btn btn-accept" data-request-id="101" type="submit">
                 <i class='bx bx-check'></i> Accept
               </button>
               <button class="btn btn-reject" data-request-id="101">
@@ -114,15 +123,19 @@
               </button>
             </div>
           </div>
+        </form>
         </div>
       </div>
       {% endfor %}
+      {% if rep_driver.id %}
        {% for rep_employee in rep_employees %}
       <div class="col-lg-4 col-md-6">
         <div class="card ride-card animate__animated animate__fadeInUp">
           <div class="card-header">
             <i class='bx bx-car'></i> Request #101
           </div>
+          <form action="{% url 'accept_req' rep_driver.id %}" method="post">
+            {% csrf_token %}
           <div class="card-body">
             <div class="employee-info mb-3">
               <img src="https://via.placeholder.com/40x40/FFD60A/000?text=JD" class="employee-avatar" alt="Employee">
@@ -139,7 +152,7 @@
             <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
             <p><strong><i class='bx bx-money'></i> Fare:</strong> {{rep_trip_cost}}</p>
             <div class="d-flex justify-content-between mt-3">
-              <button class="btn btn-accept" data-request-id="101">
+              <button class="btn btn-accept" data-request-id="101" type="submit">
                 <i class='bx bx-check'></i> Accept
               </button>
               <button class="btn btn-reject" data-request-id="101">
@@ -147,9 +160,11 @@
               </button>
             </div>
           </div>
+          </form>
         </div>
       </div>
       {% endfor %}
+      {% endif %}
 
       <div class="col-lg-4 col-md-6">
         <div class="card ride-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
@@ -172,10 +187,10 @@
             <p><strong><i class='bx bx-calendar'></i> Date:</strong> 15 Dec 2024</p>
             <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹380</p>
             <div class="d-flex justify-content-between mt-3">
-              <button class="btn btn-accept" data-request-id="102">
+              <button class="btn btn-accept" data-request-id="">
                 <i class='bx bx-check'></i> Accept
               </button>
-              <button class="btn btn-reject" data-request-id="102">
+              <button class="btn btn-reject" data-request-id="">
                 <i class='bx bx-x'></i> Reject
               </button>
             </div>
