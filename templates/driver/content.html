@@ -1,116 +1,136 @@
-{% extends 'sitemaster.html' %}
-{% block tag %}<li class="nav-item"><a class="nav-link" href="#">Driver</a></li>{% endblock %}
-{% block registerbtn %}{% endblock %}
-{% block content %}
+{% extends 'sitemaster.html' %} {% block tag %}
+<li class="nav-item"><a class="nav-link" href="#">Driver</a></li>
+{% endblock %} {% block registerbtn %}{% endblock %} {% block content %}
 
 <style>
-  /* Driver content.html CSS */                                                               /* Driver CSS */
+  /* Driver content.html CSS */ /* Driver CSS */
 
-    :root {
-      --dark-bg: #121212;       /* Background */
-      --text-light: #ffffff;    /* Text color */
-      --accent-yellow: #FFD60A; /* Buttons and highlights */
-      --light-gray: #e2e2e2;    /* Input background */
-    }
+  :root {
+    --dark-bg: #121212; /* Background */
+    --text-light: #ffffff; /* Text color */
+    --accent-yellow: #ffd60a; /* Buttons and highlights */
+    --light-gray: #e2e2e2; /* Input background */
+  }
 
-    
+  /* Full width dark wrapper */
+  .form-wrapper {
+    background: var(--dark-bg);
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 50px 15px;
+  }
 
-    /* Full width dark wrapper */
-    .form-wrapper {
-      background: var(--dark-bg);
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      padding: 50px 15px;
-    }
+  /* Card for form */
+  .form-card {
+    background: #1e1e1e;
+    border-radius: 16px;
+    padding: 30px 20px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    color: var(--text-light);
+  }
 
-    /* Card for form */
-    .form-card {
-      background: #1e1e1e;
-      border-radius: 16px;
-      padding: 30px 20px;
-      width: 100%;
-      max-width: 450px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
-      color: var(--text-light);
-    }
+  .form-card h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: 600;
+    color: var(--accent-yellow);
+  }
 
-    .form-card h2 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-      color: var(--accent-yellow);
-    }
+  .form-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: var(--text-light);
+  }
 
-    .form-label {
-      font-weight: 500;
-      margin-bottom: 5px;
-      color: var(--text-light);
-    }
+  .form-control {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 15px;
+    margin-bottom: 15px;
+    background: var(--light-gray);
+    font-size: 16px;
+    color: #000;
+  }
 
-    .form-control {
-      border: none;
-      border-radius: 8px;
-      padding: 12px 15px;
-      margin-bottom: 15px;
-      background: var(--light-gray);
-      font-size: 16px;
-      color: #000;
-    }
+  .form-control:focus {
+    outline: none;
+    box-shadow: 0 0 5px var(--accent-yellow);
+  }
 
-    .form-control:focus {
-      outline: none;
-      box-shadow: 0 0 5px var(--accent-yellow);
-    }
+  button {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: var(--accent-yellow);
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+    transition: background 0.3s ease;
+  }
 
-    button {
-      width: 100%;
-      padding: 12px;
-      border: none;
-      border-radius: 8px;
-      background: var(--accent-yellow);
-      font-size: 16px;
-      font-weight: 600;
-      color: #000;
-      transition: background 0.3s ease;
-    }
-
-    button:hover {
-      background: #e6c307;
-    }
+  button:hover {
+    background: #e6c307;
+  }
 </style>
 
-  <div class="form-wrapper">
-    <!-- Centered card -->
-    <div class="form-card">
-      <h2>Car Details</h2>
-      <form action="" method="post">
-        {% csrf_token %}
-        <label for="carModel" class="form-label">Car Model</label>
-        <input type="text" class="form-control" name="carModel" placeholder="Enter your car model" required>
+<div class="form-wrapper">
+  <!-- Centered card -->
+  <div class="form-card">
+    <h2>Car Details</h2>
+    <form action="" method="post">
+      {% csrf_token %}
+      <label for="carModel" class="form-label">Car Model</label>
+      <input
+        type="text"
+        class="form-control"
+        name="carModel"
+        placeholder="Enter your car model"
+        required
+      />
 
-        <label for="carNumberPlate" class="form-label">Car's Number Plate</label>
-        <input type="text" class="form-control" name="carNumberPlate" placeholder="Enter your car number" required>
+      <label for="carNumberPlate" class="form-label">Car's Number Plate</label>
+      <input
+        type="text"
+        class="form-control"
+        name="carNumberPlate"
+        placeholder="Enter your car number"
+        required
+      />
 
-        <label for="carCapacity" class="form-label">Car Capacity</label>
-        <input type="number" class="form-control" name="carCapacity" placeholder="Enter car's capacity" required>
+      <label for="carCapacity" class="form-label">Car Capacity</label>
+      <input
+        type="number"
+        class="form-control"
+        name="carCapacity"
+        placeholder="Enter car's capacity"
+        required
+      />
 
-        <label for="pick_up_time" class="form-label">Pick Up Time</label>
-        <input type="time" class="form-control" name="pick_up_time" required>
+      <label for="pick_up_time" class="form-label">Pick Up Time</label>
+      <input type="time" class="form-control" name="pick_up_time" required />
 
-        <label for="drop_time" class="form-label">Drop Time</label>
-        <input type="time" class="form-control" name="drop_time" required>
+      <label for="drop_time" class="form-label">Drop Time</label>
+      <input type="time" class="form-control" name="drop_time" required />
 
-        <label for="tripcost" class="form-label">Money You Charge</label>
-        <input type="number" class="form-control" name="tripcost" placeholder="Enter how much you will charge" required>
+      <label for="tripcost" class="form-label">Money You Charge</label>
+      <input
+        type="number"
+        class="form-control"
+        name="tripcost"
+        placeholder="Enter how much you will charge"
+        required
+      />
 
-        <button type="submit">
-          <!-- <a href="/driver/home" style="text-decoration: none; color: black; width: 100%; height: 100%;">Submit</a> -->
-           Submit
-        </button>
-      </form>
-      <!-- <button type="submit"><a href="/driver/home">alresdy filled car info</a></button> -->
-      
-    </div>
+      <button type="submit">
+        <!-- <a href="/driver/home" style="text-decoration: none; color: black; width: 100%; height: 100%;">Submit</a> -->
+        Submit
+      </button>
+    </form>
+    <!-- <button type="submit"><a href="/driver/home">alresdy filled car info</a></button> -->
   </div>
-  {% endblock %}
+</div>
+{% endblock %}
