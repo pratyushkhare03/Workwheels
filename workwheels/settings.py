@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-^h%f=4jwfpaudt&s)rqylux3%h^p122#-vf=o-#%17*h#*%6t3
 DEBUG = True
 
 ALLOWED_HOSTS = [
-   '*'
+  'workwheels.onrender.com',
 ]
 
 
