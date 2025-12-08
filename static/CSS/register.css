@@ -186,6 +186,7 @@
           /* background: #7494ec; */
           /* background: var(--toggle-box-bg); */
           background-image: url('../images/road.png');
+          /* filter: blur(2px); */
           background-size: contain;
           /* border: 2px solid red; */
           border-radius: 150px;
@@ -248,13 +249,16 @@
         }
         .toggle-panel p {
           margin-bottom: 20px;
+          color: #333;
         }
         
         .toggle-panel .btn {
           width: 160px;
           height: 46px;
-          background: transparent;
+          background: #FFD60A;
+          /* filter: blur(5px); */
           border: 2px solid #fff;
+          font-weight: bold;
           box-shadow: none;
         }
         

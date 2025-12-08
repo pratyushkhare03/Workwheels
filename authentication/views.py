@@ -71,3 +71,8 @@ def  login(req):
                  return redirect('/driver')
     #return render(req,'register.html')
     return render(req, 'register.html', {'initial_form': initial_form})
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('/')

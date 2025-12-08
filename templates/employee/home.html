@@ -1,7 +1,9 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
-{% block tag %}<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
-{% block registerbtn %}{% endblock %}
+{% block tag %}
+<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
+{% block registerbtn %}
+<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>{% endblock %}
 {% block content %}
 
 <link href="{% static 'CSS/employee-styles.css' %}" rel="stylesheet">
@@ -37,6 +39,7 @@
   </div>
 
   <!-- Enhanced Request Form -->
+<<<<<<< HEAD
   <div class="container mt-4">
     <h3 class="section-title animate__animated animate__fadeInDown">Request a Ride</h3>
     {% comment %} <h3 class="section-title animate__animated animate__fadeInDown">Request a Ride</h3> {% endcomment %}
@@ -99,6 +102,9 @@
       </div>
     </div>
   </div>
+=======
+  
+>>>>>>> ecb6d91209da7aac6a57921a62f979af0b06276e
 
   <!-- Enhanced Request History -->
   <div class="container mt-5">
@@ -110,11 +116,11 @@
       <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp">
           <div class="card-header">
-            <i class='bx bx-car'></i> Request #201
+            <i class='bx bx-car'></i> Request
           </div>
           <div class="card-body">
             <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{"TODO"}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{drop_location}}</p>
             <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{pick_uptime}}</p>
             <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
             <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{car_model}}</p>
@@ -138,11 +144,11 @@
       <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp">
           <div class="card-header">
-            <i class='bx bx-car'></i> Request #201
+            <i class='bx bx-car'></i> Request
           </div>
           <div class="card-body">
             <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{"TODO"}}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{rep_drop_location}}</p>
             <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{rep_pick_uptime}}</p>
             <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
             <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{rep_car_model}}</p>
@@ -163,10 +169,10 @@
       </div>
        {% endfor %}
 
-      <div class="col-lg-4 col-md-6">
+      <!-- <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
           <div class="card-header">
-            <i class='bx bx-car'></i> Request #202
+            <i class='bx bx-car'></i> Request
           </div>
           <div class="card-body">
             <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Downtown Office</p>
@@ -189,7 +195,7 @@
       <div class="col-lg-4 col-md-6">
         <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
           <div class="card-header">
-            <i class='bx bx-car'></i> Request #203
+            <i class='bx bx-car'></i> Request 
           </div>
           <div class="card-body">
             <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Cyber Hub</p>
@@ -210,10 +216,10 @@
       </div>
 
     </div>
-  </div>
+  </div> -->
 
   <!-- Floating Action Button -->
-  <div class="fab animate__animated animate__fadeInUp" style="animation-delay: 0.5s;">
+  <div class="fab animate__animated animate__fadeInUp" style="animation-delay: 0.5s;"  onclick="window.location.href='/employee/'">
     <i class='bx bx-plus'></i>
   </div>
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from .models import Employee
 from .models import EmployeeData
@@ -14,33 +15,57 @@ def home(request):
        date = dt.date.today()
        user = get_object_or_404(User, username=request.user.username)
        employee = Employee.objects.get(username=user)
+       
        pickup_location=employee.pickup_location
+       drop_location=employee.drop_location
        rep_employee = EmployeeData.objects.filter(employee=employee).last()
-       rep_pickup_location=rep_employee.pickup_location
+       rep_pickup_location=None
+       rep_drop_location=None
+       if rep_employee:
+        rep_pickup_location=rep_employee.pickup_location
+        rep_drop_location=rep_employee.drop_location
        
        drivers=Driver.objects.all()
        repeated_drivers=DriverData.objects.all()
+        
+       rep_car_model=None
+       rep_car_numberplate=None
+       rep_car_capacity=None
+       rep_trip_cost=None
+       rep_pick_uptime=None
+       
+           
+
+       for driver in drivers:
+              if driver.accept_status==True:
+              # drivername=driver.username
+               car_model=driver.carModel
+               car_numberplate=driver.carNumberPlate
+               car_capacity=driver.carCapacity
+               trip_cost=driver.tripCost
+               pick_uptime=driver.pick_up_time
+              else:
+                    car_model=""
+                    car_numberplate=""
+                    car_capacity=""
+                    trip_cost=""
+                    pick_uptime=""
+
        for repeat_driver in repeated_drivers:
+            if repeat_driver.accept_status==True:  
               # rep_drivername=repeat_driver.username
               rep_car_model=repeat_driver.carModel
               rep_car_numberplate=repeat_driver.carNumberPlate
               rep_car_capacity=repeat_driver.carCapacity
               rep_trip_cost=repeat_driver.tripCost
               rep_pick_uptime=repeat_driver.pick_up_time
-
-       for driver in drivers:
-              # drivername=driver.username
-              car_model=driver.carModel
-              car_numberplate=driver.carNumberPlate
-              car_capacity=driver.carCapacity
-              trip_cost=driver.tripCost
-              pick_uptime=driver.pick_up_time
+       
 
        return render(request,'employee/home.html',{'date':date,'car_model':car_model,'car_numberplate':car_numberplate
                      ,'car_capacity':car_capacity,'trip_cost':trip_cost,'pick_uptime':pick_uptime,
                      'rep_car_model':rep_car_model,'rep_car_numberplate':rep_car_numberplate,'rep_car_capacity':rep_car_capacity,
                      'rep_trip_cost':rep_trip_cost,'rep_pick_uptime':rep_pick_uptime,'drivers':drivers,'repeated_drivers':repeated_drivers,
-                     'pickup_location':pickup_location,'rep_pickup_location':rep_pickup_location})
+                     'pickup_location':pickup_location,'rep_pickup_location':rep_pickup_location,'drop_location':drop_location,'rep_drop_location':rep_drop_location})
 
 
 def employee(request):
@@ -87,4 +112,7 @@ def employee(request):
        #       redirect('home/')
       return render(request, 'employee/content.html')
 
+
+
+  #
 
