@@ -164,6 +164,9 @@ STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+CSRF_TRUSTED_ORIGINS = [
+    "https://workwheels.onrender.com",
+]
 
 
 if not DEBUG:
