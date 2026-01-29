@@ -509,45 +509,6 @@
       </div>
       {% endfor %}
 
-      <!-- Repeated employee rides -->
-      {% if rep_driver.id %}
-      {% for rep_employee in rep_employees %}
-      <div class="col-lg-4 col-md-6">
-        <div class="card ride-card">
-          <div class="card-header">
-            <i class='bx bx-car'></i> Request #{{ forloop.counter|add:employees|length }}
-          </div>
-          <form action="{% url 'accept_req' rep_driver.id %}" method="post">
-            {% csrf_token %}
-            <div class="card-body">
-              <div class="employee-info mb-3">
-                <img src="https://via.placeholder.com/50x50/FFD60A/000?text={{ rep_employeename|slice:':1'|upper }}" class="employee-avatar" alt="Employee">
-                <div class="employee-details">
-                  <h6 class="employee-name">{{ rep_employeename|default:"Employee" }}</h6>
-                  <span class="employee-rating">
-                    <i class='bx bxs-star'></i> 4.9
-                  </span>
-                </div>
-              </div>
-              <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ rep_pickup_location|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ rep_drop_location|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-time'></i> Time:</strong> {{ rep_pickup_time|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ date }}</p>
-              <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹{{ rep_trip_cost|default:"0" }}</p>
-              <div class="d-flex justify-content-between mt-3">
-                <button class="btn btn-accept" type="submit">
-                  <i class='bx bx-check'></i> Accept
-                </button>
-                <button class="btn btn-reject" type="button">
-                  <i class='bx bx-x'></i> Reject
-                </button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      {% endfor %}
-      {% endif %}
 
     {% else %}
       <!-- No requests message -->
