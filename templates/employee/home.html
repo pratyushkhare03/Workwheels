@@ -1,227 +1,623 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}
-<li class="nav-item"><a class="nav-link" href="#">Employee</a></li>{% endblock %}
-{% block registerbtn %}<li class="nav-item"><a class="nav-link" href="/logout">Logout</a></li>{% endblock %}{% block content %}
+<li class="nav-item"><a class="nav-link" href="/employee">Employee</a></li>
+{% endblock %}
+{% block registerbtn %}
+<li class="nav-item dropdown">
+  <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    <i class='bx bx-user-circle'></i> Profile
+  </a>
+  <ul class="dropdown-menu dropdown-menu-end glass" aria-labelledby="profileDropdown">
+    <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#shiftModal"><i class='bx bx-time'></i> Shift Details</a></li>
+    <li><a class="dropdown-item" href="#"><i class='bx bx-cog'></i> Settings</a></li>
+    <li><hr class="dropdown-divider"></li>
+    <li><a class="dropdown-item" href="/logout"><i class='bx bx-log-out'></i> Logout</a></li>
+  </ul>
+</li>
+{% endblock %}
 
-<link href="{% static 'CSS/employee-styles.css' %}" rel="stylesheet">
+{% block content %}
+<style>
+  /* Additional styles for employee dashboard */
+  .stats-container {
+    margin-top: 2rem;
+  }
+
+  .stat-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 193, 7, 0.5);
+    box-shadow: 0 12px 30px rgba(255, 193, 7, 0.3);
+  }
+
+  .stat-number {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    color: #ffc107;
+    margin-bottom: 0.5rem;
+  }
+
+  .stat-label {
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 700;
+    color: #ffc107;
+    text-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  .request-form {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+  }
+
+  .form-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .form-label i {
+    color: #ffc107;
+    margin-right: 0.5rem;
+  }
+
+  .request-form .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: clamp(0.6rem, 2vw, 0.75rem);
+    border-radius: 8px;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .request-form .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffc107;
+    color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    outline: none;
+  }
+
+  .request-form .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .btn-request {
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    border: none;
+    padding: clamp(0.8rem, 2vw, 1rem);
+    font-size: clamp(1rem, 2vw, 1.1rem);
+    font-weight: 600;
+    color: #1a1a2e;
+    border-radius: 50px;
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+    transition: all 0.3s ease;
+  }
+
+  .btn-request:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(255, 193, 7, 0.6);
+    background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
+  }
+
+  .btn-request i {
+    margin-right: 0.5rem;
+  }
+
+  .success-message {
+    display: none;
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid rgba(76, 175, 80, 0.5);
+    color: #4caf50;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+    margin-top: 1rem;
+    font-weight: 500;
+  }
+
+  .success-message i {
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+  }
+
+  .loading {
+    display: none;
+    text-align: center;
+    padding: 2rem;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  .spinner {
+    border: 3px solid rgba(255, 193, 7, 0.3);
+    border-top: 3px solid #ffc107;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .ride-history-card {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    transition: all 0.3s ease;
+    height: 100%;
+  }
+
+  .ride-history-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 193, 7, 0.5);
+    box-shadow: 0 12px 30px rgba(255, 193, 7, 0.2);
+  }
+
+  .ride-history-card .card-header {
+    background: rgba(255, 193, 7, 0.15);
+    border-bottom: 1px solid rgba(255, 193, 7, 0.3);
+    color: #ffc107;
+    font-weight: 600;
+    padding: 1rem;
+    border-radius: 16px 16px 0 0;
+    font-size: clamp(0.9rem, 2vw, 1.1rem);
+  }
+
+  .ride-history-card .card-header i {
+    margin-right: 0.5rem;
+  }
+
+  .ride-history-card .card-body {
+    padding: clamp(1rem, 2vw, 1.5rem);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .ride-history-card .card-body p {
+    margin-bottom: 0.8rem;
+    font-size: clamp(0.85rem, 1.8vw, 0.95rem);
+  }
+
+  .ride-history-card .card-body i {
+    color: #ffc107;
+    margin-right: 0.3rem;
+  }
+
+  .status-pending {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .status-accepted {
+    background: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .status-rejected {
+    background: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .fab {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 1000;
+  }
+
+  .fab:hover {
+    transform: scale(1.1) rotate(90deg);
+    box-shadow: 0 12px 35px rgba(255, 193, 7, 0.6);
+  }
+
+  .fab i {
+    font-size: 1.8rem;
+    color: #1a1a2e;
+  }
+
+  /* Dropdown glassmorphic styling */
+  .dropdown-menu.glass {
+    background: rgba(26, 26, 46, 0.9);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 0.5rem 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin-top: 0.5rem;
+  }
+
+  .dropdown-menu.glass .dropdown-item {
+    color: rgba(255, 255, 255, 0.9);
+    padding: 0.7rem 1.5rem;
+    transition: all 0.3s ease;
+    font-size: clamp(0.9rem, 2vw, 1rem);
+  }
+
+  .dropdown-menu.glass .dropdown-item:hover {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+  }
+
+  .dropdown-menu.glass .dropdown-item i {
+    margin-right: 0.5rem;
+    color: #ffc107;
+  }
+
+  .dropdown-menu.glass .dropdown-divider {
+    border-color: rgba(255, 255, 255, 0.2);
+    margin: 0.5rem 0;
+  }
+
+  /* Modal glassmorphic styling */
+  .modal-content {
+    background: rgba(26, 26, 46, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 16px;
+    color: #fff;
+  }
+
+  .modal-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1.5rem;
+  }
+
+  .modal-title {
+    color: #ffc107;
+    font-weight: 600;
+    font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  }
+
+  .modal-body {
+    padding: 2rem 1.5rem;
+  }
+
+  .modal .form-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+
+  .modal .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 0.75rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .modal .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: #ffc107;
+    color: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(255, 193, 7, 0.25);
+    outline: none;
+  }
+
+  .modal .form-control::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .modal .btn-close {
+    filter: invert(1);
+    opacity: 0.8;
+  }
+
+  .modal .btn-close:hover {
+    opacity: 1;
+  }
+
+  .modal-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    padding: 1rem 1.5rem;
+  }
+
+  .btn-outline-primary,
+  .btn-outline-danger,
+  .btn-outline-secondary,
+  .btn-outline-warning,
+  .btn-outline-info {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .btn-outline-primary:hover {
+    background: rgba(13, 110, 253, 0.2);
+    border-color: #0d6efd;
+    color: #fff;
+  }
+
+  .btn-outline-danger:hover {
+    background: rgba(220, 53, 69, 0.2);
+    border-color: #dc3545;
+    color: #fff;
+  }
+
+  .btn-success {
+    background: rgba(25, 135, 84, 0.8);
+    border: none;
+  }
+
+  .btn-success:hover {
+    background: rgba(25, 135, 84, 1);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .fab {
+      bottom: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .fab i {
+      font-size: 1.5rem;
+    }
+  }
+
+  @media (max-width: 576px) {
+    .stat-card {
+      margin-bottom: 1rem;
+    }
+  }
+</style>
 
 <!-- Stats Section -->
-  <div class="container mt-4">
-    <div class="row stats-container">
-      <div class="col-md-3 col-sm-6 mb-3">
-        <div class="stat-card animate__animated animate__fadeInUp">
-          <div class="stat-number">12</div>
-          <div class="stat-label">Total Rides</div>
-        </div>
+<div class="container mt-4">
+  <div class="row stats-container">
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-number">12</div>
+        <div class="stat-label">Total Rides</div>
       </div>
-      <div class="col-md-3 col-sm-6 mb-3">
-        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-          <div class="stat-number">8</div>
-          <div class="stat-label">Completed</div>
-        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-number">8</div>
+        <div class="stat-label">Completed</div>
       </div>
-      <div class="col-md-3 col-sm-6 mb-3">
-        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-          <div class="stat-number">3</div>
-          <div class="stat-label">Pending</div>
-        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Pending</div>
       </div>
-      <div class="col-md-3 col-sm-6 mb-3">
-        <div class="stat-card animate__animated animate__fadeInUp" style="animation-delay: 0.3s;">
-          <div class="stat-number">1</div>
-          <div class="stat-label">Rejected</div>
-        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 mb-3">
+      <div class="stat-card">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Rejected</div>
       </div>
     </div>
   </div>
+</div>
 
-  <!-- Enhanced Request Form -->
-<<<<<<< HEAD
-  <div class="container mt-4">
-    <h3 class="section-title animate__animated animate__fadeInDown">Request a Ride</h3>
-    {% comment %} <h3 class="section-title animate__animated animate__fadeInDown">Request a Ride</h3> {% endcomment %}
-    <div class="row justify-content-center">
-      <div class="col-lg-8 col-md-10">
-        <form class="request-form animate__animated animate__fadeInUp" id="rideForm">
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="pickup" class="form-label">
-                <i class='bx bx-map-pin'></i> Pickup Location
-              </label>
-              <input type="text" class="form-control" id="pickup" placeholder="Search pickup location" required>
-              <input type="hidden" id="pickup-lat" name="pickup_lat">
-              <input type="hidden" id="pickup-lng" name="pickup_lng">
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="drop" class="form-label">
-                <i class='bx bx-target-lock'></i> Drop Location
-              </label>
-              <input type="text" class="form-control" id="drop" placeholder="Search drop location" required>
-              <input type="hidden" id="drop-lat" name="drop_lat">
-              <input type="hidden" id="drop-lng" name="drop_lng">
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-6 mb-3">
-              <label for="time" class="form-label">
-                <i class='bx bx-time'></i> Pickup Time
-              </label>
-              <input type="time" class="form-control" id="time" required>
-            </div>
-            <div class="col-md-6 mb-3">
-              <label for="date" class="form-label">
-                <i class='bx bx-calendar'></i> Pickup Date
-              </label>
-              <input type="date" class="form-control" id="date" required>
-            </div>
-          </div>
-          <div class="mb-3">
-            <label for="notes" class="form-label">
-              <i class='bx bx-note'></i> Additional Notes (Optional)
+<!-- Enhanced Request Form -->
+<div class="container mt-4">
+  <h3 class="section-title">Request a Ride</h3>
+  <div class="row justify-content-center">
+    <div class="col-lg-8 col-md-10">
+      <form class="request-form" id="rideForm">
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="pickup" class="form-label">
+              <i class='bx bx-map-pin'></i> Pickup Location
             </label>
-            <textarea class="form-control" id="notes" rows="3" placeholder="Any special requirements or notes..."></textarea>
+            <input type="text" class="form-control" id="pickup" placeholder="Search pickup location" required>
+            <input type="hidden" id="pickup-lat" name="pickup_lat">
+            <input type="hidden" id="pickup-lng" name="pickup_lng">
           </div>
-          <button type="submit" class="btn btn-request w-100">
-            <i class='bx bx-send'></i> Submit Request
+          <div class="col-md-6 mb-3">
+            <label for="drop" class="form-label">
+              <i class='bx bx-target-lock'></i> Drop Location
+            </label>
+            <input type="text" class="form-control" id="drop" placeholder="Search drop location" required>
+            <input type="hidden" id="drop-lat" name="drop_lat">
+            <input type="hidden" id="drop-lng" name="drop_lng">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label for="time" class="form-label">
+              <i class='bx bx-time'></i> Pickup Time
+            </label>
+            <input type="time" class="form-control" id="time" required>
+          </div>
+          <div class="col-md-6 mb-3">
+            <label for="date" class="form-label">
+              <i class='bx bx-calendar'></i> Pickup Date
+            </label>
+            <input type="date" class="form-control" id="date" required>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="notes" class="form-label">
+            <i class='bx bx-note'></i> Additional Notes (Optional)
+          </label>
+          <textarea class="form-control" id="notes" rows="3" placeholder="Any special requirements or notes..."></textarea>
+        </div>
+        <button type="submit" class="btn btn-request w-100">
+          <i class='bx bx-send'></i> Submit Request
+        </button>
+      </form>
+      
+      <!-- Success Message -->
+      <div class="success-message" id="successMessage">
+        <i class='bx bx-check-circle'></i> Ride request submitted successfully!
+      </div>
+      
+      <!-- Loading -->
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <p class="mt-2">Processing your request...</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Enhanced Request History -->
+<div class="container mt-5 mb-5">
+  <h3 class="section-title">Your Ride Requests</h3>
+  <div class="row g-4">
+    
+    <!-- Request Card Example -->
+    {% for driver in drivers %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card ride-history-card">
+        <div class="card-header">
+          <i class='bx bx-car'></i> Request #{{ forloop.counter }}
+        </div>
+        <div class="card-body">
+          <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{rep_pickup_location}}</p>
+          <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{drop_location}}</p>
+          <p><strong><i class='bx bx-time'></i> Time:</strong> {{pick_uptime}}</p>
+          <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{date}}</p>
+          <p><strong><i class='bx bx-car'></i> Model:</strong> {{car_model}}</p>
+          <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{car_capacity}}</p>
+          <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{car_numberplate}}</p>
+          <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{trip_cost}}</p>
+          <p>Status: <span class="status-pending">Pending</span></p>
+          <div class="mt-3">
+            <button class="btn btn-sm btn-outline-primary me-2">
+              <i class='bx bx-edit'></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger">
+              <i class='bx bx-trash'></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    {% for rep_driver in repeated_drivers %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card ride-history-card">
+        <div class="card-header">
+          <i class='bx bx-car'></i> Request #{{ forloop.counter }}
+        </div>
+        <div class="card-body">
+          <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{rep_pickup_location}}</p>
+          <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{rep_drop_location}}</p>
+          <p><strong><i class='bx bx-time'></i> Time:</strong> {{rep_pick_uptime}}</p>
+          <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{date}}</p>
+          <p><strong><i class='bx bx-car'></i> Model:</strong> {{rep_car_model}}</p>
+          <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{rep_car_capacity}}</p>
+          <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{rep_car_numberplate}}</p>
+          <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{rep_trip_cost}}</p>
+          <p>Status: <span class="status-pending">Pending</span></p>
+          <div class="mt-3">
+            <button class="btn btn-sm btn-outline-primary me-2">
+              <i class='bx bx-edit'></i> Edit
+            </button>
+            <button class="btn btn-sm btn-outline-danger">
+              <i class='bx bx-trash'></i> Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+  </div>
+</div>
+
+<!-- Floating Action Button -->
+<div class="fab" onclick="window.location.href='/employee/'">
+  <i class='bx bx-plus'></i>
+</div>
+
+<!-- Shift Details Modal -->
+<div class="modal fade" id="shiftModal" tabindex="-1" aria-labelledby="shiftModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="shiftModalLabel"><i class='bx bx-time'></i> Shift Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="" method="post">
+          {% csrf_token %}
+          <label for="department" class="form-label">Department</label>
+          <input type="text" class="form-control" name="department" placeholder="Enter your department" required>
+
+          <label for="shift_start" class="form-label">Working shift start time</label>
+          <input type="time" class="form-control" name="shift_start" required>
+
+          <label for="shift_end" class="form-label">Working shift end time</label>
+          <input type="time" class="form-control" name="shift_end" required>
+
+          <label for="pickup_location" class="form-label">Pick up Location</label>
+          <input type="text" class="form-control" name="pickup_location" placeholder="Enter your pickup location" required>
+
+          <label for="drop_location" class="form-label">Drop Location</label>
+          <input type="text" class="form-control" name="drop_location" placeholder="Enter your drop location" required>
+
+          <button type="submit" class="btn btn-request w-100 mt-3">
+            <i class='bx bx-save'></i> Save Shift Details
           </button>
         </form>
-        
-        <!-- Success Message -->
-        <div class="success-message" id="successMessage">
-          <i class='bx bx-check-circle'></i> Ride request submitted successfully!
-        </div>
-        
-        <!-- Loading -->
-        <div class="loading" id="loading">
-          <div class="spinner"></div>
-          <p class="mt-2">Processing your request...</p>
-        </div>
       </div>
     </div>
   </div>
-=======
-  
->>>>>>> ecb6d91209da7aac6a57921a62f979af0b06276e
+</div>
 
-  <!-- Enhanced Request History -->
-  <div class="container mt-5">
-    <h3 class="section-title animate__animated animate__fadeInDown">Your Ride Requests</h3>
-    <div class="row g-4">
-      
-      <!-- Request Card Example -->
-       {% for driver in drivers %}
-      <div class="col-lg-4 col-md-6">
-        <div class="card ride-history-card animate__animated animate__fadeInUp">
-          <div class="card-header">
-            <i class='bx bx-car'></i> Request
-          </div>
-          <div class="card-body">
-            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{drop_location}}</p>
-            <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{pick_uptime}}</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{car_model}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Capacity</strong>{{car_capacity}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Number Plate</strong>{{car_numberplate}}</p>
-            <p><strong><i class='bx bx-calendar'></i>per KM trip cost</strong>{{trip_cost}}</p>
-            <p>Status: <span class="status-pending">Pending</span></p>
-            <div class="mt-3">
-              <button class="btn btn-sm btn-outline-primary me-2">
-                <i class='bx bx-edit'></i> Edit
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class='bx bx-trash'></i> Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-       {% endfor %}
-       {% for rep_driver in repeated_drivers %}
-      <div class="col-lg-4 col-md-6">
-        <div class="card ride-history-card animate__animated animate__fadeInUp">
-          <div class="card-header">
-            <i class='bx bx-car'></i> Request
-          </div>
-          <div class="card-body">
-            <p><strong><i class='bx bx-map-pin'></i> Pickup location:</strong>{{rep_pickup_location}}</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong>{{rep_drop_location}}</p>
-            <p><strong><i class='bx bx-time'></i>Pick up Time:</strong>{{rep_pick_uptime}}</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong>{{date}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Model</strong>{{rep_car_model}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Capacity</strong>{{rep_car_capacity}}</p>
-            <p><strong><i class='bx bx-calendar'></i>Car Number Plate</strong>{{rep_car_numberplate}}</p>
-            <p><strong><i class='bx bx-calendar'></i>per KM trip cost</strong>{{rep_trip_cost}}</p>
-            <p>Status: <span class="status-pending">Pending</span></p>
-            <div class="mt-3">
-              <button class="btn btn-sm btn-outline-primary me-2">
-                <i class='bx bx-edit'></i> Edit
-              </button>
-              <button class="btn btn-sm btn-outline-danger">
-                <i class='bx bx-trash'></i> Cancel
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-       {% endfor %}
+<!-- Google Maps Places API -->
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
+<script src="{% static 'JS/employee-script.js' %}"></script>
 
-      <!-- <div class="col-lg-4 col-md-6">
-        <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.1s;">
-          <div class="card-header">
-            <i class='bx bx-car'></i> Request
-          </div>
-          <div class="card-body">
-            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Downtown Office</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Railway Station</p>
-            <p><strong><i class='bx bx-time'></i> Time:</strong> 11:00 AM</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 14 Dec 2024</p>
-            <p>Status: <span class="status-accepted">Accepted</span></p>
-            <div class="mt-3">
-              <button class="btn btn-sm btn-success me-2">
-                <i class='bx bx-check'></i> Track
-              </button>
-              <button class="btn btn-sm btn-outline-info">
-                <i class='bx bx-phone'></i> Contact
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-lg-4 col-md-6">
-        <div class="card ride-history-card animate__animated animate__fadeInUp" style="animation-delay: 0.2s;">
-          <div class="card-header">
-            <i class='bx bx-car'></i> Request 
-          </div>
-          <div class="card-body">
-            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> Cyber Hub</p>
-            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> Bus Stand</p>
-            <p><strong><i class='bx bx-time'></i> Time:</strong> 9:15 AM</p>
-            <p><strong><i class='bx bx-calendar'></i> Date:</strong> 13 Dec 2024</p>
-            <p>Status: <span class="status-rejected">Rejected</span></p>
-            <div class="mt-3">
-              <button class="btn btn-sm btn-outline-secondary me-2">
-                <i class='bx bx-refresh'></i> Reapply
-              </button>
-              <button class="btn btn-sm btn-outline-warning">
-                <i class='bx bx-message'></i> Feedback
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div> -->
-
-  <!-- Floating Action Button -->
-  <div class="fab animate__animated animate__fadeInUp" style="animation-delay: 0.5s;"  onclick="window.location.href='/employee/'">
-    <i class='bx bx-plus'></i>
-  </div>
-
-  <!-- Google Maps Places API -->
-  <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
-  <script src="{% static 'JS/employee-script.js' %}"></script>
-  {% endblock %}
+{% endblock %}
