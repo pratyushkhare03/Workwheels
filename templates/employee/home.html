@@ -514,64 +514,77 @@
   <h3 class="section-title">Your Ride Requests</h3>
   <div class="row g-4">
     
-    <!-- Request Card Example -->
-    {% for driver in drivers %}
-    <div class="col-lg-4 col-md-6">
-      <div class="card ride-history-card">
-        <div class="card-header">
-          <i class='bx bx-car'></i> Request #{{ forloop.counter }}
-        </div>
-        <div class="card-body">
-          <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{rep_pickup_location}}</p>
-          <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{drop_location}}</p>
-          <p><strong><i class='bx bx-time'></i> Time:</strong> {{pick_uptime}}</p>
-          <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{date}}</p>
-          <p><strong><i class='bx bx-car'></i> Model:</strong> {{car_model}}</p>
-          <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{car_capacity}}</p>
-          <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{car_numberplate}}</p>
-          <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{trip_cost}}</p>
-          <p>Status: <span class="status-pending">Pending</span></p>
-          <div class="mt-3">
-            <button class="btn btn-sm btn-outline-primary me-2">
-              <i class='bx bx-edit'></i> Edit
-            </button>
-            <button class="btn btn-sm btn-outline-danger">
-              <i class='bx bx-trash'></i> Cancel
-            </button>
+    {% if driver_rides or repeated_rides %}
+      <!-- Display driver rides -->
+      {% for ride in driver_rides %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Ride Request #{{ forloop.counter }}
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ ride.pickup_location|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ ride.drop_location|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> {{ ride.pick_uptime|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ date }}</p>
+            <p><strong><i class='bx bx-car'></i> Model:</strong> {{ ride.car_model|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{ ride.car_capacity|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{ ride.car_numberplate|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{ ride.trip_cost|default:"0" }}</p>
+            <p>Status: <span class="status-accepted">Accepted</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-success me-2">
+                <i class='bx bx-check'></i> Track
+              </button>
+              <button class="btn btn-sm btn-outline-info">
+                <i class='bx bx-phone'></i> Contact
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
 
-    {% for rep_driver in repeated_drivers %}
-    <div class="col-lg-4 col-md-6">
-      <div class="card ride-history-card">
-        <div class="card-header">
-          <i class='bx bx-car'></i> Request #{{ forloop.counter }}
-        </div>
-        <div class="card-body">
-          <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{rep_pickup_location}}</p>
-          <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{rep_drop_location}}</p>
-          <p><strong><i class='bx bx-time'></i> Time:</strong> {{rep_pick_uptime}}</p>
-          <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{date}}</p>
-          <p><strong><i class='bx bx-car'></i> Model:</strong> {{rep_car_model}}</p>
-          <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{rep_car_capacity}}</p>
-          <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{rep_car_numberplate}}</p>
-          <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{rep_trip_cost}}</p>
-          <p>Status: <span class="status-pending">Pending</span></p>
-          <div class="mt-3">
-            <button class="btn btn-sm btn-outline-primary me-2">
-              <i class='bx bx-edit'></i> Edit
-            </button>
-            <button class="btn btn-sm btn-outline-danger">
-              <i class='bx bx-trash'></i> Cancel
-            </button>
+      <!-- Display repeated rides -->
+      {% for ride in repeated_rides %}
+      <div class="col-lg-4 col-md-6">
+        <div class="card ride-history-card">
+          <div class="card-header">
+            <i class='bx bx-car'></i> Ride Request #{{ forloop.counter|add:driver_rides|length }}
+          </div>
+          <div class="card-body">
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ ride.pickup_location|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ ride.drop_location|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> {{ ride.pick_uptime|default:"Not specified" }}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ date }}</p>
+            <p><strong><i class='bx bx-car'></i> Model:</strong> {{ ride.car_model|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-group'></i> Capacity:</strong> {{ ride.car_capacity|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-id-card'></i> Plate:</strong> {{ ride.car_numberplate|default:"N/A" }}</p>
+            <p><strong><i class='bx bx-dollar'></i> Cost/km:</strong> ₹{{ ride.trip_cost|default:"0" }}</p>
+            <p>Status: <span class="status-accepted">Accepted</span></p>
+            <div class="mt-3">
+              <button class="btn btn-sm btn-success me-2">
+                <i class='bx bx-check'></i> Track
+              </button>
+              <button class="btn btn-sm btn-outline-info">
+                <i class='bx bx-phone'></i> Contact
+              </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    {% endfor %}
+      {% endfor %}
+
+    {% else %}
+      <!-- No rides message -->
+      <div class="col-12">
+        <div class="text-center py-5">
+          <i class='bx bx-car' style="font-size: 4rem; color: rgba(255, 193, 7, 0.5);"></i>
+          <h4 class="mt-3" style="color: rgba(255, 255, 255, 0.7);">No ride requests yet</h4>
+          <p style="color: rgba(255, 255, 255, 0.5);">Your accepted rides will appear here</p>
+        </div>
+      </div>
+    {% endif %}
 
   </div>
 </div>
