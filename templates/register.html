@@ -5,559 +5,35 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login/Signup Form</title>
+    <link rel="stylesheet" href="{% static '../static/CSS/register.css' %}" />
     <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet"/>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        background-attachment: fixed;
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        overflow-x: hidden;
-      }
-
-      .container {
-        position: relative;
-        width: 100%;
-        max-width: 900px;
-        height: 600px;
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        border-radius: 20px;
-        box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5);
-        overflow: hidden;
-      }
-
-      .form-box {
-        position: absolute;
-        top: 0;
-        width: 50%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 40px;
-        transition: transform 0.6s ease-in-out;
-      }
-
-      .form-box.login {
-        left: 0;
-        transform: translateX(0);
-      }
-
-      .container.active .form-box.login {
-        transform: translateX(100%);
-      }
-
-      .form-box.register {
-        right: 0;
-        transform: translateX(100%);
-      }
-
-      .container.active .form-box.register {
-        transform: translateX(0);
-      }
-
-      .form-box form {
-        width: 100%;
-        max-width: 350px;
-      }
-
-      .form-box h1 {
-        font-size: clamp(1.8rem, 4vw, 2.2rem);
-        color: #ffc107;
-        text-align: center;
-        margin-bottom: 2rem;
-        text-shadow: 0 0 20px rgba(255, 193, 7, 0.3);
-      }
-
-      .input-box {
-        position: relative;
-        width: 100%;
-        height: 50px;
-        margin-bottom: 20px;
-      }
-
-      .input-box input,
-      .input-box select {
-        width: 100%;
-        height: 100%;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        outline: none;
-        border-radius: 10px;
-        padding: 0 45px 0 20px;
-        color: #fff;
-        font-size: 16px;
-        transition: all 0.3s ease;
-      }
-
-      .input-box input:focus,
-      .input-box select:focus {
-        background: rgba(255, 255, 255, 0.15);
-        border-color: #ffc107;
-        box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
-      }
-
-      .input-box input::placeholder {
-        color: rgba(255, 255, 255, 0.6);
-      }
-
-      .input-box select {
-        cursor: pointer;
-        appearance: none;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-      }
-
-      .input-box select option {
-        background: #1a1a2e;
-        color: #fff;
-      }
-
-      .input-box i {
-        position: absolute;
-        right: 15px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 20px;
-        color: #ffc107;
-        pointer-events: none;
-      }
-
-      .forgot-link {
-        text-align: right;
-        margin: -10px 0 15px;
-      }
-
-      .forgot-link a {
-        color: rgba(255, 255, 255, 0.8);
-        text-decoration: none;
-        font-size: 14px;
-        transition: color 0.3s ease;
-      }
-
-      .forgot-link a:hover {
-        color: #ffc107;
-      }
-
-      .btn {
-        width: 100%;
-        height: 50px;
-        background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-        border: none;
-        outline: none;
-        border-radius: 50px;
-        box-shadow: 0 8px 25px rgba(255, 193, 7, 0.4);
-        cursor: pointer;
-        font-size: 16px;
-        font-weight: 700;
-        color: #1a1a2e;
-        transition: all 0.3s ease;
-        margin-bottom: 15px;
-      }
-
-      .btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 35px rgba(255, 193, 7, 0.6);
-        background: linear-gradient(135deg, #ff9800 0%, #ffc107 100%);
-      }
-
-      .form-box p {
-        text-align: center;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 14px;
-        margin-bottom: 15px;
-      }
-
-      .social-icons {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-      }
-
-      .social-icons a {
-        width: 40px;
-        height: 40px;
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        color: #ffc107;
-        font-size: 20px;
-        transition: all 0.3s ease;
-      }
-
-      .social-icons a:hover {
-        background: #ffc107;
-        color: #1a1a2e;
-        transform: translateY(-3px);
-        box-shadow: 0 8px 20px rgba(255, 193, 7, 0.4);
-      }
-
-      .toggle-box {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 50%;
-        height: 100%;
-        background: linear-gradient(135deg, rgba(255, 193, 7, 0.3) 0%, rgba(255, 152, 0, 0.3) 100%);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border-left: 1px solid rgba(255, 255, 255, 0.2);
-        overflow: hidden;
-        transition: transform 0.6s ease-in-out;
-      }
-
-      .container.active .toggle-box {
-        transform: translateX(-100%);
-      }
-
-      .toggle-panel {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        padding: 40px;
-        text-align: center;
-        transition: transform 0.6s ease-in-out;
-      }
-
-      .toggle-panel h1 {
-        font-size: clamp(1.8rem, 4vw, 2.5rem);
-        color: #fff;
-        margin-bottom: 10px;
-        text-shadow: 0 0 20px rgba(255, 193, 7, 0.5);
-      }
-
-      .toggle-panel p {
-        color: rgba(255, 255, 255, 0.9);
-        font-size: clamp(1rem, 2vw, 1.1rem);
-        margin-bottom: 20px;
-      }
-
-      .toggle-left {
-        transform: translateX(-100%);
-      }
-
-      .container.active .toggle-left {
-        transform: translateX(0);
-      }
-
-      .toggle-right {
-        transform: translateX(0);
-      }
-
-      .container.active .toggle-right {
-        transform: translateX(100%);
-      }
-
-      .car {
-        margin-top: 30px;
-        animation: float 3s ease-in-out infinite;
-      }
-
-      .car img {
-        max-width: 200px;
-        height: auto;
-        filter: drop-shadow(0 10px 30px rgba(255, 193, 7, 0.5));
-      }
-
-      @keyframes float {
-        0%, 100% {
-          transform: translateY(0);
-        }
-        50% {
-          transform: translateY(-20px);
-        }
-      }
-
-      /* Messages Container */
-      .messages-container {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        z-index: 9999;
-        max-width: 400px;
-        width: 90%;
-      }
-
-      /* Alert Message Base */
-      .alert-message {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(15px);
-        -webkit-backdrop-filter: blur(15px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        padding: 1rem 1.5rem;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        animation: slideIn 0.5s ease;
-      }
-
-      @keyframes slideIn {
-        from {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      @keyframes slideOut {
-        from {
-          transform: translateX(0);
-          opacity: 1;
-        }
-        to {
-          transform: translateX(100%);
-          opacity: 0;
-        }
-      }
-
-      /* Alert Content */
-      .alert-content {
-        display: flex;
-        align-items: center;
-        gap: 0.8rem;
-        flex: 1;
-      }
-
-      .alert-content i {
-        font-size: 1.5rem;
-      }
-
-      .alert-content span {
-        font-size: clamp(0.9rem, 2vw, 1rem);
-        font-weight: 500;
-      }
-
-      /* Close Button */
-      .btn-close-alert {
-        background: none;
-        border: none;
-        color: inherit;
-        cursor: pointer;
-        padding: 0;
-        font-size: 1.3rem;
-        opacity: 0.7;
-        transition: opacity 0.3s ease;
-        margin-left: 1rem;
-      }
-
-      .btn-close-alert:hover {
-        opacity: 1;
-      }
-
-      /* Success Alert */
-      .alert-success {
-        background: rgba(76, 175, 80, 0.2);
-        border-color: rgba(76, 175, 80, 0.5);
-        color: #4caf50;
-      }
-
-      .alert-success i {
-        color: #4caf50;
-      }
-
-      /* Error Alert */
-      .alert-error {
-        background: rgba(244, 67, 54, 0.2);
-        border-color: rgba(244, 67, 54, 0.5);
-        color: #f44336;
-      }
-
-      .alert-error i {
-        color: #f44336;
-      }
-
-      /* Warning Alert */
-      .alert-warning {
-        background: rgba(255, 193, 7, 0.2);
-        border-color: rgba(255, 193, 7, 0.5);
-        color: #ffc107;
-      }
-
-      .alert-warning i {
-        color: #ffc107;
-      }
-
-      /* Info Alert */
-      .alert-info {
-        background: rgba(33, 150, 243, 0.2);
-        border-color: rgba(33, 150, 243, 0.5);
-        color: #2196f3;
-      }
-
-      .alert-info i {
-        color: #2196f3;
-      }
-
-      /* Responsive Design */
-      @media (max-width: 768px) {
-        .container {
-          max-width: 100%;
-          height: auto;
-          min-height: 600px;
-        }
-
-        .form-box {
-          width: 100%;
-          position: relative;
-          padding: 30px 20px;
-        }
-
-        .form-box.login {
-          transform: translateX(0);
-        }
-
-        .container.active .form-box.login {
-          transform: translateX(-100%);
-        }
-
-        .form-box.register {
-          transform: translateX(100%);
-        }
-
-        .container.active .form-box.register {
-          transform: translateX(0);
-        }
-
-        .toggle-box {
-          width: 100%;
-          height: auto;
-          min-height: 200px;
-          position: relative;
-          border-left: none;
-          border-top: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .container.active .toggle-box {
-          transform: translateX(0);
-        }
-
-        .toggle-panel {
-          position: relative;
-          padding: 30px 20px;
-        }
-
-        .toggle-left,
-        .toggle-right {
-          transform: translateX(0);
-          display: none;
-        }
-
-        .container.active .toggle-left {
-          display: flex;
-        }
-
-        .toggle-right {
-          display: flex;
-        }
-
-        .container.active .toggle-right {
-          display: none;
-        }
-
-        .car img {
-          max-width: 150px;
-        }
-
-        .messages-container {
-          top: 10px;
-          right: 10px;
-          left: 10px;
-          max-width: none;
-          width: auto;
-        }
-
-        .alert-message {
-          padding: 0.8rem 1rem;
-        }
-
-        .alert-content {
-          gap: 0.5rem;
-        }
-
-        .alert-content span {
-          font-size: 0.85rem;
-        }
-      }
-
-      @media (max-width: 576px) {
-        .input-box {
-          height: 45px;
-          margin-bottom: 15px;
-        }
-
-        .input-box input,
-        .input-box select {
-          font-size: 14px;
-          padding: 0 40px 0 15px;
-        }
-
-        .input-box i {
-          font-size: 18px;
-          right: 12px;
-        }
-
-        .btn {
-          height: 45px;
-          font-size: 15px;
-        }
-
-        .social-icons a {
-          width: 35px;
-          height: 35px;
-          font-size: 18px;
-        }
-      }
-    </style>
   </head>
   <body>
     <div class="container {% if initial_form == 'register' %}active{% endif %}">
 
+
       <!-- Messages Display Section -->
-      {% if messages %}
-      <div class="messages-container">
-        {% for message in messages %}
-        <div class="alert-message alert-{{ message.tags }}" role="alert">
-          <div class="alert-content">
-            <i class='bx bx-{{ message.tags }}-circle'></i>
-            <span>{{ message }}</span>
-          </div>
-          <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
-            <i class='bx bx-x'></i>
-          </button>
-        </div>
-        {% endfor %}
-      </div>
-      {% endif %}
+{% if messages %}
+<div class="messages-container">
+  {% for message in messages %}
+  <div class="alert-message alert-{{ message.tags }}" role="alert">
+    <div class="alert-content">
+      <i class='bx bx-{{ message.tags }}-circle'></i>
+      <span>{{ message }}</span>
+    </div>
+    <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
 
       <div class="form-box login">
         <form action="" method="post">
           {% csrf_token %}
+          <!-- <h1>Login</h1> -->
           <div class="input-box">
             <input type="text" placeholder="username" name="username" required />
             <i class="bx bxs-user"></i>
@@ -566,7 +42,7 @@
             <input type="password" placeholder="Password" name="password" required />
             <i class="bx bxs-lock-alt"></i>
           </div>
-          <div class="input-box">
+           <div class="input-box">
             <select class="form-select select-no-arrow" name="role" aria-placeholder="Role" required>
               <option value="" disabled selected hidden>Choose Role</option>
               <option value="employee">Employee</option>            
@@ -591,6 +67,8 @@
       <div class="form-box register">
         <form action="" method="post">
           {% csrf_token %}
+          <!-- <h1>Registration</h1> -->
+
           <div class="input-box">
             <input type="text" placeholder="Full Name" required />
             <i class="bx bxs-id-card"></i>
@@ -612,6 +90,7 @@
               <option value="" disabled selected hidden>Choose Role</option>
               <option value="employee">Employee</option>            
               <option value="driver">Driver</option>
+              <!-- <option value="hr">HR</option> -->   
             </select>
             <i class="bx bx-chevron-down"></i>
           </div>
@@ -635,49 +114,30 @@
         </div>
         
         <div class="toggle-panel toggle-right">
-          <h1>Welcome Back!</h1>
-          <p>Already have an account?</p>
-          <button class="btn login-btn">Login</button>
-          <div class="car"><img src="{% static 'images/car.png' %}" alt="car"></div>
+            <h1>Welcome Back!</h1>
+            <p>Already have an account?</p>
+            <button class="btn login-btn">Login</button>
+            <div class="car"><img src="{% static 'images/car.png' %}" alt="car"></div>
         </div>
       </div>
     </div>
 
-    <script>
-      // Auto-dismiss messages after 5 seconds
-      document.addEventListener('DOMContentLoaded', function() {
-        const alerts = document.querySelectorAll('.alert-message');
+<script>
+  // Auto-dismiss messages after 5 seconds
+  document.addEventListener('DOMContentLoaded', function() {
+    const alerts = document.querySelectorAll('.alert-message');
+    
+    alerts.forEach(alert => {
+      setTimeout(() => {
+        alert.style.animation = 'slideOut 0.5s ease';
         
-        alerts.forEach(alert => {
-          setTimeout(() => {
-            alert.style.animation = 'slideOut 0.5s ease';
-            
-            setTimeout(() => {
-              alert.remove();
-            }, 500);
-          }, 5000); // 5 seconds
-        });
-      });
-
-      // Toggle between login and register forms
-      const container = document.querySelector('.container');
-      const registerBtn = document.querySelector('.register-btn');
-      const loginBtn = document.querySelector('.login-btn');
-
-      registerBtn.addEventListener('click', () => {
-        container.classList.add('active');
-      });
-
-      loginBtn.addEventListener('click', () => {
-        container.classList.remove('active');
-      });
-
-      // Password validation function (if needed)
-      function validatePasswords() {
-        // Add your password validation logic here
-        return true;
-      }
-    </script>
-    <script src="{% static 'JS/register.js' %}"></script>
+        setTimeout(() => {
+          alert.remove();
+        }, 500);
+      }, 5000); // 5 seconds
+    });
+  });
+</script>
+<script src="{% static 'JS/register.js' %}"></script>
   </body>
 </html>
