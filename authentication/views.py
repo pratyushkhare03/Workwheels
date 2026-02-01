@@ -54,7 +54,7 @@ def  login(req):
      user=authenticate(username = usernm , password = pasw)
      if user is None:
         messages.error(req,"Wrong password enter a valid one")
-        return redirect('/')
+        return redirect('/login')
      else:
         auth_login(req,user)
         messages.success(req,"Logged in successfully")    
