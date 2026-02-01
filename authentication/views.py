@@ -38,7 +38,7 @@ def register(request):
         return redirect('/login/')  # Change to your login page
 
      #return render(request,'register.html')
-      return render(request, 'register.html', {'initial_form': initial_form})
+      return render(request, 'register.html', {initial_form: 'register'})
 
 # Login function
 
@@ -68,7 +68,7 @@ def  login(req):
      else:
                  return redirect('/driver')
 
-    return render(req, 'register.html', {'initial_form': initial_form})
+    return render(req, 'register.html', {initial_form: 'login'})
 
 
 def logout_view(request):

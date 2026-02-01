@@ -109,14 +109,14 @@
         <div class="toggle-panel toggle-left">
           <h1>Hello, Welcome!</h1>
           <p>Don't have an account?</p>
-          <button class="btn register-btn">Register</button>
+          <button class="btn register-btn" onclick="location.href='/register/'">Register</button>
           <div class="car"><img src="{% static 'images/car.png' %}" alt="car"></div>
         </div>
         
         <div class="toggle-panel toggle-right">
             <h1>Welcome Back!</h1>
             <p>Already have an account?</p>
-            <button class="btn login-btn">Login</button>
+            <button class="btn login-btn" onclick="location.href='/login/'">Login</button>
             <div class="car"><img src="{% static 'images/car.png' %}" alt="car"></div>
         </div>
       </div>
@@ -137,6 +137,18 @@
       }, 5000); // 5 seconds
     });
   });
+
+  document.addEventListener('DOMContentLoaded', () => {
+  const container = document.querySelector('.container');
+  const path = window.location.pathname;
+
+  if (path.includes('register')) {
+    container.classList.add('active');
+  } else {
+    container.classList.remove('active');
+  }
+});
+
 </script>
 <script src="{% static 'JS/register.js' %}"></script>
   </body>
