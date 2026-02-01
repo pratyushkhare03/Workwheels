@@ -3,11 +3,13 @@ from django.contrib import messages
 from .models import USER
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login as auth_login , logout
+from django.views.decorators.cache import never_cache
 
 # Create your views here.
 def index(request):
     return render(request, 'sitemaster.html')
 
+@never_cache
 def register(request):
       path = request.path
       initial_form = 'login' if 'login' in path else 'register'
@@ -40,6 +42,7 @@ def register(request):
 
 # Login function
 
+@never_cache
 def  login(req):
     path = req.path
     initial_form = 'login' if 'login' in path else 'register'
