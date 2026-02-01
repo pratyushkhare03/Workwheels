@@ -138,17 +138,6 @@
     });
   });
 
-  document.addEventListener('DOMContentLoaded', () => {
-  const container = document.querySelector('.container');
-  const path = window.location.pathname;
-
-  if (path.includes('register')) {
-    container.classList.add('active');
-  } else {
-    container.classList.remove('active');
-  }
-});
-
 </script>
 <script src="{% static 'JS/register.js' %}"></script>
   </body>
