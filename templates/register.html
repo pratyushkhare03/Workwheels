@@ -10,6 +10,26 @@
   </head>
   <body>
     <div class="container {% if initial_form == 'register' %}active{% endif %}">
+
+
+      <!-- Messages Display Section -->
+{% if messages %}
+<div class="messages-container">
+  {% for message in messages %}
+  <div class="alert-message alert-{{ message.tags }} animate__animated animate__fadeInDown" role="alert">
+    <div class="alert-content">
+      <i class='bx bx-{{ message.tags }}-circle'></i>
+      <span>{{ message }}</span>
+    </div>
+    <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
+
       <div class="form-box login">
         <form action="" method="post">
           {% csrf_token %}
@@ -26,8 +46,7 @@
             <select class="form-select select-no-arrow" name="role" aria-placeholder="Role" required>
               <option value="" disabled selected hidden>Choose Role</option>
               <option value="employee">Employee</option>            
-              <option value="driver">Driver</option>
-              <!-- <option value="hr">HR</option> -->   
+              <option value="driver">Driver</option> 
             </select>
             <i class="bx bx-chevron-down"></i>
           </div>

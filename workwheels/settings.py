@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'driver',
     'employee',
-    'hr',
     'authentication',
 ]
 

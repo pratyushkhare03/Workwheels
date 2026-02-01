@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import USER
 from django.contrib.auth.models import User
@@ -23,8 +23,8 @@ def register(request):
         #     return redirect('/signup/')
 
         if User.objects.filter(username=username).exists():
-            messages.error(request, "Username already exists.")
-            return redirect('/register')
+            messages.error(request, "Username already exists. Login with same credentials.")
+            return redirect('/login/')
 
         # Create the user
         user = User.objects.create_user(username=username, email=email, password=password )
@@ -33,7 +33,7 @@ def register(request):
         USER.objects.create(username=user,  role=role)
 
         messages.success(request, "Account created successfully. Please log in.")
-        return redirect('/')  # Change to your login page
+        return redirect('/login/')  # Change to your login page
 
      #return render(request,'register.html')
       return render(request, 'register.html', {'initial_form': initial_form})
@@ -49,30 +49,27 @@ def  login(req):
      role = req.POST['role']
      user = User.objects.filter(username=usernm)
      if not user.exists():
-        messages.error(req,"wrong username give a currect username")
+        messages.error(req,"User does not exist please register first")
         return redirect("/register")
      user=authenticate(username = usernm , password = pasw)
      if user is None:
-        messages.error(req,"wrong password enter a valid one")
+        messages.error(req,"Wrong password enter a valid one")
         return redirect('/')
      else:
         auth_login(req,user)
-
-   #   if hasattr(USER, 'driver'):
-   #              role = 'driver'
-   #   elif hasattr(USER, 'employee'):
-   #              role = 'employee'
-      #   role = USER.objects.filter(role)
+        messages.success(req,"Logged in successfully")    
      if role == "employee":
-      # #   if User.objects.filter(username=username).exists():
+
                  return redirect('/employee')
-      # #   elif role == "driver":
+
      else:
                  return redirect('/driver')
-    #return render(req,'register.html')
+
     return render(req, 'register.html', {'initial_form': initial_form})
 
 
 def logout_view(request):
     logout(request)
+    request.session.flush()         # clears all session data (extra safety)
+    messages.success(request, "Logged out successfully")
     return redirect('/')
