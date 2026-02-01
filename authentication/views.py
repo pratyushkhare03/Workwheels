@@ -22,7 +22,7 @@ def register(request):
         #     messages.error(request, "Passwords do not match.")
         #     return redirect('/signup/')
 
-        if User.objects.filter(username=username).exists():
+        if User.objects.filter(username=username, role=role).exists():
             messages.error(request, "Username already exists. Login with same credentials.")
             return redirect('/login/')
 
@@ -51,7 +51,7 @@ def  login(req):
      if not user.exists():
         messages.error(req,"User does not exist please register first")
         return redirect("/register")
-     user=authenticate(username = usernm , password = pasw)
+     user=authenticate(username = usernm , password = pasw, role=role)
      if user is None:
         messages.error(req,"Wrong password enter a valid one")
         return redirect('/login')
