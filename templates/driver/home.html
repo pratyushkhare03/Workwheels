@@ -17,6 +17,23 @@
 </li>
 {% endblock %}
 
+<!-- Messages Display Section -->
+{% if messages %}
+<div class="messages-container">
+  {% for message in messages %}
+  <div class="alert-message alert-{{ message.tags }} animate__animated animate__fadeInDown" role="alert">
+    <div class="alert-content">
+      <i class='bx bx-{{ message.tags }}-circle'></i>
+      <span>{{ message }}</span>
+    </div>
+    <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
+      <i class='bx bx-x'></i>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+{% endif %}
+
 {% block content %}
 <style>
   /* Additional styles for driver dashboard */
@@ -457,13 +474,13 @@
   </div>
 </div>
 
-<!-- Success Alert -->
+{% comment %} <!-- Success Alert -->
 <div class="container mt-4">
   <div class="alert alert-custom">
     <i class='bx bx-check-circle'></i> 
     <span>Welcome back! Your ride requests are now visible.</span>
   </div>
-</div>
+</div> {% endcomment %}
 
 <!-- Enhanced Ride Requests -->
 <div class="container mt-5">
