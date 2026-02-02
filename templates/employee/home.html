@@ -473,13 +473,12 @@
     </div>
   </div>
 </div>
-
 <!-- Enhanced Request Form -->
 <div class="container mt-4">
   <h3 class="section-title">Request a Ride</h3>
   <div class="row justify-content-center">
     <div class="col-lg-8 col-md-10">
-      <form class="request-form" method="post" action="{% url 'send_ride_request' driver.id %}" id="rideForm">
+      <form class="request-form" method="post" action="{% url 'send_ride_request' %}" id="rideForm">
         {% csrf_token %}
         <div class="row">
           <div class="col-md-6 mb-3">
@@ -542,19 +541,18 @@
       </form>
       
       <!-- Success Message -->
-      <div class="success-message" id="successMessage">
+      <div class="success-message" id="successMessage" style="display: none;">
         <i class='bx bx-check-circle'></i> Ride request submitted successfully!
       </div>
       
       <!-- Loading -->
-      <div class="loading" id="loading">
+      <div class="loading" id="loading" style="display: none;">
         <div class="spinner"></div>
         <p class="mt-2">Processing your request...</p>
       </div>
     </div>
   </div>
-</div>     
-
+</div>
 
 <!-- Enhanced Request History -->
 <div class="container mt-5 mb-5">

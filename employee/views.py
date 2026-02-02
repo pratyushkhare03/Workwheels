@@ -18,7 +18,7 @@ def home(request):
         user = request.user
         
         # Handle shift details form submission (from modal)
-        if request.method == 'POST':
+        if request.method == 'POST' and 'department' in request.POST:
             department = request.POST.get('department', '').strip()
             shift_start = request.POST.get('shift_start', '').strip()
             shift_end = request.POST.get('shift_end', '').strip()
@@ -158,7 +158,7 @@ def home(request):
 
 
 @login_required
-def send_ride_request(request, driver_id):
+def send_ride_request(request):
     """
     Handle employee sending a ride request to a driver
     """
@@ -166,6 +166,13 @@ def send_ride_request(request, driver_id):
         try:
             user = request.user
             employee = get_object_or_404(Employee, username=user)
+            
+            # Get driver_id from POST data
+            driver_id = request.POST.get('driver_id')
+            if not driver_id:
+                messages.error(request, "Please select a driver.")
+                return redirect('/employee')
+            
             driver = get_object_or_404(Driver, id=driver_id)
             
             # Check if already has pending request with this driver
