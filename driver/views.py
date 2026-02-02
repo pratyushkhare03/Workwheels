@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.contrib.auth.models import User
 from .models import Driver, DriverData
-from employee.models import Employee, EmployeeData
+from employee.models import Employee, EmployeeData, RideRequest
 import datetime as dt
 
 # Create your views here.
@@ -89,47 +89,51 @@ def home(request):
         except Driver.DoesNotExist:
             print(f"No Driver record found for user: {user.username}")
         
-        # Get all employees with ride requests
-        employee_requests = []
+        # Get pending ride requests for this driver
+        pending_requests = []
+        accepted_requests = []
         try:
-            employees = Employee.objects.all()
-            for employee in employees:
-                employee_requests.append({
-                    'employeename': employee.username.username,
-                    'pickup_location': employee.pickup_location or "Not specified",
-                    'drop_location': employee.drop_location or "Not specified",
-                    'pickup_time': employee.shift_start or "Not specified",
-                    'trip_cost': driver.tripCost if driver else "0",
-                })
+            if driver:
+                # Pending requests
+                pending = RideRequest.objects.filter(driver=driver, status='pending').order_by('-created_at')
+                for req in pending:
+                    pending_requests.append({
+                        'id': req.id,
+                        'employee_name': req.employee.username.username,
+                        'department': req.employee.department,
+                        'pickup_location': req.pickup_location,
+                        'drop_location': req.drop_location,
+                        'pickup_time': req.pickup_time,
+                        'pickup_date': req.pickup_date,
+                        'notes': req.notes or "",
+                        'created_at': req.created_at,
+                        'trip_cost': driver.tripCost,
+                    })
+                
+                # Accepted requests
+                accepted = RideRequest.objects.filter(driver=driver, status='accepted').order_by('-created_at')
+                for req in accepted:
+                    accepted_requests.append({
+                        'id': req.id,
+                        'employee_name': req.employee.username.username,
+                        'department': req.employee.department,
+                        'pickup_location': req.pickup_location,
+                        'drop_location': req.drop_location,
+                        'pickup_time': req.pickup_time,
+                        'pickup_date': req.pickup_date,
+                        'notes': req.notes or "",
+                        'trip_cost': driver.tripCost,
+                    })
         except Exception as e:
-            print(f"Error getting Employee data: {str(e)}")
-        
-        # Get repeated employee requests
-        repeated_requests = []
-        try:
-            rep_employees = EmployeeData.objects.all()
-            for rep_employee in rep_employees:
-                repeated_requests.append({
-                    'rep_employeename': rep_employee.employee.username.username,
-                    'rep_pickup_location': rep_employee.pickup_location or "Not specified",
-                    'rep_drop_location': rep_employee.drop_location or "Not specified",
-                    'rep_pickup_time': rep_employee.shift_start or "Not specified",
-                    'rep_trip_cost': driver.tripCost if driver else "0",
-                })
-        except Exception as e:
-            print(f"Error getting EmployeeData: {str(e)}")
+            print(f"Error getting RideRequest data: {str(e)}")
+            import traceback
+            traceback.print_exc()
         
         context = {
             'date': date,
             'driver': driver,
-            'employees': employee_requests,
-            'rep_employees': repeated_requests,
-            'rep_driver': driver,  # For template compatibility
-            'employeename': employee_requests[0]['employeename'] if employee_requests else None,
-            'pickup_location': employee_requests[0]['pickup_location'] if employee_requests else None,
-            'drop_location': employee_requests[0]['drop_location'] if employee_requests else None,
-            'pickup_time': employee_requests[0]['pickup_time'] if employee_requests else None,
-            'trip_cost': employee_requests[0]['trip_cost'] if employee_requests else None,
+            'pending_requests': pending_requests,
+            'accepted_requests': accepted_requests,
         }
         
         return render(request, 'driver/home.html', context)
@@ -144,22 +148,101 @@ def home(request):
 
 
 @login_required
-def accept_request(request, driver_id):
+def accept_request(request, request_id):
     """
     Handle driver accepting a ride request
     """
     if request.method == 'POST':
         try:
-            driver = get_object_or_404(Driver, id=driver_id)
-            driver.accept_status = True
-            driver.save()
+            user = request.user
+            driver = get_object_or_404(Driver, username=user)
+            ride_request = get_object_or_404(RideRequest, id=request_id, driver=driver)
             
-            messages.success(request, "Ride request accepted successfully!")
+            if ride_request.status == 'pending':
+                ride_request.status = 'accepted'
+                ride_request.save()
+                
+                # Update driver's accept status
+                driver.accept_status = True
+                driver.assigned_employee = ride_request.employee
+                driver.save()
+                
+                messages.success(request, f"Ride request from {ride_request.employee.username.username} accepted successfully!")
+            else:
+                messages.warning(request, "This request has already been processed.")
+            
             return redirect('/driver')
             
         except Exception as e:
             print(f"Error accepting request: {str(e)}")
+            import traceback
+            traceback.print_exc()
             messages.error(request, "Failed to accept request. Please try again.")
+            return redirect('/driver')
+    
+    return redirect('/driver')
+
+
+@login_required
+def reject_request(request, request_id):
+    """
+    Handle driver rejecting a ride request
+    """
+    if request.method == 'POST':
+        try:
+            user = request.user
+            driver = get_object_or_404(Driver, username=user)
+            ride_request = get_object_or_404(RideRequest, id=request_id, driver=driver)
+            
+            if ride_request.status == 'pending':
+                ride_request.status = 'rejected'
+                ride_request.save()
+                
+                messages.success(request, f"Ride request from {ride_request.employee.username.username} rejected.")
+            else:
+                messages.warning(request, "This request has already been processed.")
+            
+            return redirect('/driver')
+            
+        except Exception as e:
+            print(f"Error rejecting request: {str(e)}")
+            messages.error(request, "Failed to reject request. Please try again.")
+            return redirect('/driver')
+    
+    return redirect('/driver')
+
+
+@login_required
+def complete_ride(request, request_id):
+    """
+    Handle driver completing a ride
+    """
+    if request.method == 'POST':
+        try:
+            user = request.user
+            driver = get_object_or_404(Driver, username=user)
+            ride_request = get_object_or_404(RideRequest, id=request_id, driver=driver)
+            
+            if ride_request.status == 'accepted':
+                ride_request.status = 'completed'
+                ride_request.save()
+                
+                # Reset driver status if no other active rides
+                active_rides = RideRequest.objects.filter(driver=driver, status='accepted').exists()
+                if not active_rides:
+                    driver.accept_status = False
+                    driver.assigned_employee = None
+                    driver.save()
+                
+                messages.success(request, "Ride completed successfully!")
+            else:
+                messages.warning(request, "Invalid ride status.")
+            
+            return redirect('/driver')
+            
+        except Exception as e:
+            print(f"Error completing ride: {str(e)}")
+            messages.error(request, "Failed to complete ride.")
             return redirect('/driver')
     
     return redirect('/driver')
