@@ -1,7 +1,7 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}
-<li class="nav-item"><a class="nav-link" href="/employee">Employee</a></li>
+<li class="nav-item"><a class="nav-link" href="/employee">Dashboard</a></li>
 {% endblock %}
 {% block registerbtn %}
 <li class="nav-item dropdown">
@@ -459,16 +459,16 @@
               <i class='bx bx-map-pin'></i> Pickup Location
             </label>
             <input type="text" class="form-control" id="pickup" placeholder="Search pickup location" required>
-            <input type="hidden" id="pickup-lat" name="pickup_lat">
-            <input type="hidden" id="pickup-lng" name="pickup_lng">
+            {% comment %} <input type="hidden" id="pickup-lat" name="pickup_lat">
+            <input type="hidden" id="pickup-lng" name="pickup_lng"> {% endcomment %}
           </div>
           <div class="col-md-6 mb-3">
             <label for="drop" class="form-label">
               <i class='bx bx-target-lock'></i> Drop Location
             </label>
             <input type="text" class="form-control" id="drop" placeholder="Search drop location" required>
-            <input type="hidden" id="drop-lat" name="drop_lat">
-            <input type="hidden" id="drop-lng" name="drop_lng">
+            {% comment %} <input type="hidden" id="drop-lat" name="drop_lat">
+            <input type="hidden" id="drop-lng" name="drop_lng"> {% endcomment %}
           </div>
         </div>
         <div class="row">

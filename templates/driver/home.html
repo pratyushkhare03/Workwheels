@@ -1,8 +1,9 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}
-{% comment %} <li class="nav-item"><a class="nav-link" href="/driver">Dashboard</a></li> {% endcomment %}
-
+<li class="nav-item"><a class="nav-link" href="/driver">Dashboard</a></li>
+{% endblock %}
+{% block registerbtn %}
 <li class="nav-item dropdown">
   <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     <i class='bx bx-user-circle'></i> Profile
@@ -15,7 +16,6 @@
   </ul>
 </li>
 {% endblock %}
-
 
 {% block content %}
 <style>
