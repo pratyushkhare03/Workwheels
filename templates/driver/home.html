@@ -1,7 +1,7 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}
-<li class="nav-item"><a class="nav-link" href="/driver">Dashboard</a></li>
+<li class="nav-item"><a class="nav-link" href="/driver">Driver</a></li>
 {% endblock %}
 {% block registerbtn %}
 <li class="nav-item dropdown">
@@ -16,23 +16,6 @@
   </ul>
 </li>
 {% endblock %}
-
-<!-- Messages Display Section -->
-{% if messages %}
-<div class="messages-container">
-  {% for message in messages %}
-  <div class="alert-message alert-{{ message.tags }} animate__animated animate__fadeInDown" role="alert">
-    <div class="alert-content">
-      <i class='bx bx-{{ message.tags }}-circle'></i>
-      <span>{{ message }}</span>
-    </div>
-    <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
-      <i class='bx bx-x'></i>
-    </button>
-  </div>
-  {% endfor %}
-</div>
-{% endif %}
 
 {% block content %}
 <style>
@@ -136,6 +119,7 @@
     padding: 1rem;
     background: rgba(255, 193, 7, 0.1);
     border-radius: 12px;
+    margin-bottom: 1rem;
   }
 
   .employee-avatar {
@@ -143,6 +127,13 @@
     height: 50px;
     border-radius: 50%;
     border: 2px solid #ffc107;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 193, 7, 0.3);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffc107;
   }
 
   .employee-details {
@@ -204,50 +195,19 @@
     box-shadow: 0 8px 20px rgba(244, 67, 54, 0.4);
   }
 
-  .current-ride-card {
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.15);
-    border-radius: 16px;
-  }
-
-  .current-ride-card .card-header {
-    background: rgba(33, 150, 243, 0.15);
-    border-bottom: 1px solid rgba(33, 150, 243, 0.3);
-    color: #2196f3;
+  .btn-complete {
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%);
+    border: none;
+    color: white;
+    padding: 0.6rem 1.5rem;
+    border-radius: 8px;
     font-weight: 600;
-    padding: 1rem 1.5rem;
-    border-radius: 16px 16px 0 0;
+    transition: all 0.3s ease;
   }
 
-  .current-ride-card .card-body {
-    padding: clamp(1.5rem, 3vw, 2rem);
-    color: rgba(255, 255, 255, 0.9);
-  }
-
-  .current-ride-card h6 {
-    color: #ffc107;
-    font-weight: 600;
-    margin-bottom: 1rem;
-  }
-
-  .current-ride-card p {
-    margin-bottom: 0.5rem;
-    font-size: clamp(0.9rem, 2vw, 1rem);
-  }
-
-  .progress {
-    height: 25px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .progress-bar {
-    background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
-    font-weight: 600;
-    line-height: 25px;
+  .btn-complete:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.4);
   }
 
   .fab {
@@ -277,26 +237,6 @@
     color: #1a1a2e;
   }
 
-  .success-message {
-    position: fixed;
-    top: 80px;
-    right: 20px;
-    background: rgba(76, 175, 80, 0.2);
-    border: 1px solid rgba(76, 175, 80, 0.5);
-    color: #4caf50;
-    padding: 1rem 1.5rem;
-    border-radius: 12px;
-    display: none;
-    align-items: center;
-    gap: 0.8rem;
-    z-index: 9999;
-    backdrop-filter: blur(15px);
-  }
-
-  .success-message i {
-    font-size: 1.5rem;
-  }
-
   /* Dropdown glassmorphic styling */
   .dropdown-menu.glass {
     background: rgba(26, 26, 46, 0.9);
@@ -307,7 +247,6 @@
     padding: 0.5rem 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     margin-top: 0.5rem;
-    z-index: 10;
   }
 
   .dropdown-menu.glass .dropdown-item {
@@ -449,13 +388,13 @@
   <div class="row stats-container">
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">8</div>
-        <div class="stat-label">Completed Rides</div>
+        <div class="stat-number">{{ accepted_requests|length }}</div>
+        <div class="stat-label">Active Rides</div>
       </div>
     </div>
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">3</div>
+        <div class="stat-number">{{ pending_requests|length }}</div>
         <div class="stat-label">Pending Requests</div>
       </div>
     </div>
@@ -467,72 +406,85 @@
     </div>
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">₹2,450</div>
+        <div class="stat-number">₹0</div>
         <div class="stat-label">Today's Earnings</div>
       </div>
     </div>
   </div>
 </div>
 
-{% comment %} <!-- Success Alert -->
+<!-- Success Alert -->
+{% if driver %}
 <div class="container mt-4">
   <div class="alert alert-custom">
     <i class='bx bx-check-circle'></i> 
     <span>Welcome back! Your ride requests are now visible.</span>
   </div>
-</div> {% endcomment %}
+</div>
+{% else %}
+<div class="container mt-4">
+  <div class="alert alert-custom" style="background: rgba(255, 193, 7, 0.2); border-color: rgba(255, 193, 7, 0.5); color: #ffc107;">
+    <i class='bx bx-info-circle'></i> 
+    <span>Please add your car details to start receiving ride requests.</span>
+  </div>
+</div>
+{% endif %}
 
-<!-- Enhanced Ride Requests -->
+<!-- Pending Ride Requests -->
 <div class="container mt-5">
-  <h3 class="section-title">Employee Ride Requests</h3>
+  <h3 class="section-title">Pending Ride Requests</h3>
   <div class="row g-4">
     
-    {% if employees or rep_employees %}
-      <!-- Ride Cards from employees -->
-      {% for employee in employees %}
+    {% if pending_requests %}
+      {% for request in pending_requests %}
       <div class="col-lg-4 col-md-6">
         <div class="card ride-card">
           <div class="card-header">
             <i class='bx bx-car'></i> Request #{{ forloop.counter }}
           </div>
-          <form action="{% url 'accept_req' driver.id %}" method="post">
-            {% csrf_token %}
-            <div class="card-body">
-              <div class="employee-info mb-3">
-                <img src="https://via.placeholder.com/50x50/FFD60A/000?text={{ employeename|slice:':1'|upper }}" class="employee-avatar" alt="Employee">
-                <div class="employee-details">
-                  <h6 class="employee-name">{{ employeename|default:"Employee" }}</h6>
-                  <span class="employee-rating">
-                    <i class='bx bxs-star'></i> 4.9
-                  </span>
-                </div>
+          <div class="card-body">
+            <div class="employee-info">
+              <div class="employee-avatar">
+                {{ request.employee_name|slice:":1"|upper }}
               </div>
-              <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ pickup_location|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ drop_location|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-time'></i> Time:</strong> {{ pickup_time|default:"Not specified" }}</p>
-              <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ date }}</p>
-              <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹{{ trip_cost|default:"0" }}</p>
-              <div class="d-flex justify-content-between mt-3">
-                <button class="btn btn-accept" type="submit">
-                  <i class='bx bx-check'></i> Accept
-                </button>
-                <button class="btn btn-reject" type="button">
-                  <i class='bx bx-x'></i> Reject
-                </button>
+              <div class="employee-details">
+                <h6 class="employee-name">{{ request.employee_name }}</h6>
+                <span class="employee-rating">
+                  <i class='bx bx-briefcase'></i> {{ request.department }}
+                </span>
               </div>
             </div>
-          </form>
+            <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ request.pickup_location }}</p>
+            <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ request.drop_location }}</p>
+            <p><strong><i class='bx bx-time'></i> Time:</strong> {{ request.pickup_time }}</p>
+            <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ request.pickup_date }}</p>
+            <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹{{ request.trip_cost }}</p>
+            {% if request.notes %}
+            <p><strong><i class='bx bx-note'></i> Notes:</strong> {{ request.notes }}</p>
+            {% endif %}
+            <div class="d-flex justify-content-between mt-3">
+              <form action="{% url 'accept_request' request.id %}" method="post" style="flex: 1; margin-right: 0.5rem;">
+                {% csrf_token %}
+                <button class="btn btn-accept w-100" type="submit">
+                  <i class='bx bx-check'></i> Accept
+                </button>
+              </form>
+              <form action="{% url 'reject_request' request.id %}" method="post" style="flex: 1;">
+                {% csrf_token %}
+                <button class="btn btn-reject w-100" type="submit">
+                  <i class='bx bx-x'></i> Reject
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
       {% endfor %}
-
-
     {% else %}
-      <!-- No requests message -->
       <div class="col-12">
         <div class="text-center py-5">
           <i class='bx bx-car' style="font-size: 4rem; color: rgba(255, 193, 7, 0.5);"></i>
-          <h4 class="mt-3" style="color: rgba(255, 255, 255, 0.7);">No ride requests available</h4>
+          <h4 class="mt-3" style="color: rgba(255, 255, 255, 0.7);">No pending ride requests</h4>
           <p style="color: rgba(255, 255, 255, 0.5);">New requests will appear here</p>
         </div>
       </div>
@@ -541,55 +493,56 @@
   </div>
 </div>
 
-<!-- Current Ride Section -->
-<div class="container mt-5 pb-5">
-  <h3 class="section-title">Current Ride</h3>
-  <div class="row justify-content-center">
-    <div class="col-lg-8">
-      <div class="card current-ride-card">
-        <div class="card-header">
-          <i class='bx bx-navigation'></i> Active Ride #100
+<!-- Accepted/Active Rides -->
+{% if accepted_requests %}
+<div class="container mt-5 mb-5">
+  <h3 class="section-title">Active Rides</h3>
+  <div class="row g-4">
+    {% for request in accepted_requests %}
+    <div class="col-lg-4 col-md-6">
+      <div class="card ride-card" style="border-color: rgba(76, 175, 80, 0.5);">
+        <div class="card-header" style="background: rgba(76, 175, 80, 0.15); border-bottom-color: rgba(76, 175, 80, 0.3); color: #4caf50;">
+          <i class='bx bx-navigation'></i> Active Ride #{{ forloop.counter }}
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <h6><i class='bx bx-user'></i> Passenger Details</h6>
-              <p><strong>Name:</strong> Alex Johnson</p>
-              <p><strong>Phone:</strong> +91 98765 43210</p>
-              <p><strong>Rating:</strong> <i class='bx bxs-star'></i> 4.8</p>
+          <div class="employee-info">
+            <div class="employee-avatar" style="border-color: #4caf50; background: rgba(76, 175, 80, 0.3); color: #4caf50;">
+              {{ request.employee_name|slice:":1"|upper }}
             </div>
-            <div class="col-md-6">
-              <h6><i class='bx bx-route'></i> Trip Details</h6>
-              <p><strong>From:</strong> IT Park, Sector 62</p>
-              <p><strong>To:</strong> Airport Terminal 1</p>
-              <p><strong>Fare:</strong> ₹450</p>
+            <div class="employee-details">
+              <h6 class="employee-name">{{ request.employee_name }}</h6>
+              <span class="employee-rating">
+                <i class='bx bx-briefcase'></i> {{ request.department }}
+              </span>
             </div>
           </div>
-          <div class="progress mt-3">
-            <div class="progress-bar" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100">65% Complete</div>
-          </div>
-          <div class="d-flex justify-content-between mt-3">
-            <button class="btn btn-outline-primary">
-              <i class='bx bx-phone'></i> Call Passenger
-            </button>
-            <button class="btn btn-success">
-              <i class='bx bx-check-circle'></i> Complete Ride
-            </button>
+          <p><strong><i class='bx bx-map-pin'></i> Pickup:</strong> {{ request.pickup_location }}</p>
+          <p><strong><i class='bx bx-target-lock'></i> Drop:</strong> {{ request.drop_location }}</p>
+          <p><strong><i class='bx bx-time'></i> Time:</strong> {{ request.pickup_time }}</p>
+          <p><strong><i class='bx bx-calendar'></i> Date:</strong> {{ request.pickup_date }}</p>
+          <p><strong><i class='bx bx-money'></i> Fare:</strong> ₹{{ request.trip_cost }}</p>
+          {% if request.notes %}
+          <p><strong><i class='bx bx-note'></i> Notes:</strong> {{ request.notes }}</p>
+          {% endif %}
+          <div class="mt-3">
+            <form action="{% url 'complete_ride' request.id %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-complete w-100" type="submit">
+                <i class='bx bx-check-circle'></i> Complete Ride
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 </div>
+{% endif %}
 
 <!-- Floating Action Button -->
-<div class="fab" onclick="window.location.href='/driver/'">
+<div class="fab" data-bs-toggle="modal" data-bs-target="#carModal">
   <i class='bx bx-plus'></i>
-</div>
-
-<!-- Success Message -->
-<div class="success-message" id="successMessage">
-  <i class='bx bx-check-circle'></i> <span id="messageText"></span>
 </div>
 
 <!-- Car Details Modal -->
@@ -604,22 +557,22 @@
         <form action="" method="post">
           {% csrf_token %}
           <label for="carModel" class="form-label">Car Model</label>
-          <input type="text" class="form-control" name="carModel" placeholder="Enter your car model" required>
+          <input type="text" class="form-control" name="carModel" placeholder="Enter your car model" value="{{ driver.carModel|default:'' }}" required>
 
           <label for="carNumberPlate" class="form-label">Car's Number Plate</label>
-          <input type="text" class="form-control" name="carNumberPlate" placeholder="Enter your car number" required>
+          <input type="text" class="form-control" name="carNumberPlate" placeholder="Enter your car number" value="{{ driver.carNumberPlate|default:'' }}" required>
 
           <label for="carCapacity" class="form-label">Car Capacity</label>
-          <input type="number" class="form-control" name="carCapacity" placeholder="Enter car's capacity" required>
+          <input type="number" class="form-control" name="carCapacity" placeholder="Enter car's capacity" value="{{ driver.carCapacity|default:'' }}" required>
 
           <label for="pick_up_time" class="form-label">Taxi Ready Time</label>
-          <input type="time" class="form-control" name="pick_up_time" required>
+          <input type="time" class="form-control" name="pick_up_time" value="{{ driver.pick_up_time|default:'' }}" required>
 
           <label for="drop_time" class="form-label">Taxi Close Time</label>
-          <input type="time" class="form-control" name="drop_time" required>
+          <input type="time" class="form-control" name="drop_time" value="{{ driver.drop_time|default:'' }}" required>
 
           <label for="tripcost" class="form-label">Charge per KM (₹)</label>
-          <input type="number" class="form-control" name="tripcost" placeholder="Enter cost per kilometer" required>
+          <input type="number" class="form-control" name="tripcost" placeholder="Enter cost per kilometer" value="{{ driver.tripCost|default:'' }}" required>
 
           <button type="submit" class="btn btn-submit mt-3">
             <i class='bx bx-save'></i> Save Car Details
