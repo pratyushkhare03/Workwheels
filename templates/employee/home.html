@@ -1,7 +1,7 @@
 {% extends 'sitemaster.html' %}
 {% load static %} 
 {% block tag %}
-<li class="nav-item"><a class="nav-link" href="/employee">Dashboard</a></li>
+<li class="nav-item"><a class="nav-link" href="/employee">Employee</a></li>
 {% endblock %}
 {% block registerbtn %}
 <li class="nav-item dropdown">
@@ -17,29 +17,13 @@
 </li>
 {% endblock %}
 
-
-<!-- Messages Display Section -->
-{% if messages %}
-<div class="messages-container">
-  {% for message in messages %}
-  <div class="alert-message alert-{{ message.tags }} animate__animated animate__fadeInDown" role="alert">
-    <div class="alert-content">
-      <i class='bx bx-{{ message.tags }}-circle'></i>
-      <span>{{ message }}</span>
-    </div>
-    <button type="button" class="btn-close-alert" onclick="this.parentElement.remove()">
-      <i class='bx bx-x'></i>
-    </button>
-  </div>
-  {% endfor %}
-</div>
-{% endif %}
-
 {% block content %}
 <style>
   /* Additional styles for employee dashboard */
   .stats-container {
     margin-top: 2rem;
+    position: relative;
+    z-index: 1;
   }
 
   .stat-card {
@@ -121,6 +105,11 @@
 
   .request-form .form-control::placeholder {
     color: rgba(255, 255, 255, 0.5);
+  }
+
+  .request-form select.form-control option {
+    background: #1a1a2e;
+    color: #fff;
   }
 
   .btn-request {
@@ -257,13 +246,13 @@
   }
 
   .status-completed {
-  background: rgba(158, 158, 158, 0.2);
-  color: #9e9e9e;
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
+    background: rgba(158, 158, 158, 0.2);
+    color: #9e9e9e;
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
 
   .fab {
     position: fixed;
@@ -294,7 +283,7 @@
 
   /* Dropdown glassmorphic styling */
   .dropdown-menu.glass {
-    background: rgba(26, 26, 46, 0.9);
+    background: rgba(26, 26, 46, 0.95);
     backdrop-filter: blur(15px);
     -webkit-backdrop-filter: blur(15px);
     border: 1px solid rgba(255, 255, 255, 0.15);
@@ -302,7 +291,7 @@
     padding: 0.5rem 0;
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
     margin-top: 0.5rem;
-    z-index: 10;
+    z-index: 9999;
   }
 
   .dropdown-menu.glass .dropdown-item {
@@ -449,30 +438,31 @@
   <div class="row stats-container">
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">12</div>
-        <div class="stat-label">Total Rides</div>
+        <div class="stat-number">{{ ride_requests|length }}</div>
+        <div class="stat-label">Total Requests</div>
       </div>
     </div>
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">8</div>
+        <div class="stat-number">{% for req in ride_requests %}{% if req.status == 'completed' %}{{ forloop.counter }}{% endif %}{% empty %}0{% endfor %}</div>
         <div class="stat-label">Completed</div>
       </div>
     </div>
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">3</div>
+        <div class="stat-number">{% for req in ride_requests %}{% if req.status == 'pending' %}{{ forloop.counter }}{% endif %}{% empty %}0{% endfor %}</div>
         <div class="stat-label">Pending</div>
       </div>
     </div>
     <div class="col-md-3 col-sm-6 mb-3">
       <div class="stat-card">
-        <div class="stat-number">1</div>
+        <div class="stat-number">{% for req in ride_requests %}{% if req.status == 'rejected' %}{{ forloop.counter }}{% endif %}{% empty %}0{% endfor %}</div>
         <div class="stat-label">Rejected</div>
       </div>
     </div>
   </div>
 </div>
+
 <!-- Enhanced Request Form -->
 <div class="container mt-4">
   <h3 class="section-title">Request a Ride</h3>
@@ -541,12 +531,12 @@
       </form>
       
       <!-- Success Message -->
-      <div class="success-message" id="successMessage" style="display: none;">
+      <div class="success-message" id="successMessage">
         <i class='bx bx-check-circle'></i> Ride request submitted successfully!
       </div>
       
       <!-- Loading -->
-      <div class="loading" id="loading" style="display: none;">
+      <div class="loading" id="loading">
         <div class="spinner"></div>
         <p class="mt-2">Processing your request...</p>
       </div>
@@ -622,7 +612,7 @@
 </div>
 
 <!-- Floating Action Button -->
-<div class="fab" onclick="window.location.href='/employee/'">
+<div class="fab" onclick="document.getElementById('rideForm').scrollIntoView({ behavior: 'smooth', block: 'center' });">
   <i class='bx bx-plus'></i>
 </div>
 
@@ -638,19 +628,19 @@
         <form action="" method="post">
           {% csrf_token %}
           <label for="department" class="form-label">Department</label>
-          <input type="text" class="form-control" name="department" placeholder="Enter your department" required>
+          <input type="text" class="form-control" name="department" placeholder="Enter your department" value="{{ employee.department|default:'' }}" required>
 
           <label for="shift_start" class="form-label">Working shift start time</label>
-          <input type="time" class="form-control" name="shift_start" required>
+          <input type="time" class="form-control" name="shift_start" value="{{ employee.shift_start|default:'' }}" required>
 
           <label for="shift_end" class="form-label">Working shift end time</label>
-          <input type="time" class="form-control" name="shift_end" required>
+          <input type="time" class="form-control" name="shift_end" value="{{ employee.shift_end|default:'' }}" required>
 
           <label for="pickup_location" class="form-label">Pick up Location</label>
-          <input type="text" class="form-control" name="pickup_location" placeholder="Enter your pickup location" required>
+          <input type="text" class="form-control" name="pickup_location" placeholder="Enter your pickup location" value="{{ employee.pickup_location|default:'' }}" required>
 
           <label for="drop_location" class="form-label">Drop Location</label>
-          <input type="text" class="form-control" name="drop_location" placeholder="Enter your drop location" required>
+          <input type="text" class="form-control" name="drop_location" placeholder="Enter your drop location" value="{{ employee.drop_location|default:'' }}" required>
 
           <button type="submit" class="btn btn-request w-100 mt-3">
             <i class='bx bx-save'></i> Save Shift Details
@@ -661,8 +651,6 @@
   </div>
 </div>
 
-<!-- Google Maps Places API -->
-{% comment %} <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script> {% endcomment %}
 <script src="{% static 'JS/employee-script.js' %}"></script>
 
 {% endblock %}
