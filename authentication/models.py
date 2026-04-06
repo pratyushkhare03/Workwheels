@@ -9,7 +9,7 @@ class USER(models.Model):
     email=models.EmailField(max_length=50)
     password=models.CharField(max_length=50)
     password2=models.CharField(max_length=50)
-    role=models.CharField(max_length=50)
+    role = models.CharField(choices=[('driver','Driver'),('employee','Employee')])
     def _str_(self):
         return self.username+" "+self.role+" "
 

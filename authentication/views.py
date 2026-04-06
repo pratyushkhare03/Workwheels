@@ -9,34 +9,39 @@ def index(request):
     return render(request, 'sitemaster.html')
 
 def register(request):
-      path = request.path
-      initial_form = 'login' if 'login' in path else 'register'
-      if request.method == "POST":
+    path = request.path
+    initial_form = 'login' if 'login' in path else 'register'
+
+    if request.method == "POST":
         username = request.POST['Usernm']
         email = request.POST['email']
         password = request.POST['password']
-        # password2 = request.POST['password2']
         role = request.POST['role']
 
-        # if password != password2:
-        #     messages.error(request, "Passwords do not match.")
-        #     return redirect('/signup/')
-
-        if User.objects.filter(username=username, role=role).exists():
+        # ✅ Check only username (NOT role)
+        if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists. Login with same credentials.")
             return redirect('/login/')
 
-        # Create the user
-        user = User.objects.create_user(username=username, email=email, password=password )
+        # ✅ Create user
+        user = User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
 
-        # Link to Employee
-        USER.objects.create(username=user,  role=role)
+        # ✅ Assign role using boolean fields
+        if role == "driver":
+            user.driver = True
+        elif role == "employee":
+            user.employee = True
+
+        user.save()
 
         messages.success(request, "Account created successfully. Please log in.")
-        return redirect('/login/')  # Change to your login page
+        return redirect('/login/')
 
-     #return render(request,'register.html')
-      return render(request, 'register.html', {'initial_form': initial_form})
+    return render(request, 'register.html', {'initial_form': initial_form})
 
 # Login function
 
